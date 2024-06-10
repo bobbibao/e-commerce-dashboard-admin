@@ -57,7 +57,6 @@ function TableHOC<T extends Object>(columns: Column<T>[], data: T[], containerCl
 							return (
 								<tr {...row.getRowProps()} key={row.values.orderID} onClick={() => navigate(row.original?.action)}>
 								{row.cells.map((cell, i) => (
-									console.log(cell),
 								  <td {...cell.getCellProps()} style={{ textAlign: cell.column?.id === "orderID" ? 'center' : 'left' }} key={i}>
 									{cell.render("Cell")}
 								  </td>

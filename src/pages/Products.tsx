@@ -1,11 +1,11 @@
-import { ReactElement, useCallback, useState } from "react";
+import { ReactElement, useCallback, useState, useEffect } from "react";
 import AdminSidebar from "../components/AdminSidebar";
 import TableHOC from "../components/TableHOC";
 import { Column } from "react-table";
-import { Link } from "react-router-dom";
+import { Link,  } from "react-router-dom";
 import { FaPlus, FaSearch } from "react-icons/fa"; 
 //search icon: react-icons/fa
-
+import axios from "axios";
 
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -64,6 +64,8 @@ const columns: Column<DataType>[] = [
 
 const img = "https://m.media-amazon.com/images/I/71Un+LxdqYL._AC_UL480_FMwebp_QL65_.jpg";
 const img1 = "https://m.media-amazon.com/images/I/91ExqbocT9L._SL1500_.jpg";
+
+
 
 const arr: DataType[] = [
 	{
@@ -285,11 +287,30 @@ const useStyles = makeStyles((theme) => ({
 	},
   }));
 const Products = () => {
-	const [data] = useState(arr);
+	const [data, setData] = useState<DataType[]>([]);
 	const classes = useStyles();
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Products", true), []);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const result = await axios.get("http://localhost:8080/products");
+				setData(result.data.map((product: any) => {
+					return {
+						photo: <img src={`https://${product.imageUrl}`} alt={product.category} />,
+						name: product.name,
+						price: product.price,
+						stock:  5,
+						action: `/admin/product/${product.id}`
+					}
+				}));
+			}catch(err) {
+				console.log(err);
+				setData([]);
+			}
+		}
+		fetchData();
+	}, []);
+	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Products", true), [data]);
 
 	return (
 		<div className="admin-container" style={{color: "rgb(234, 236, 239)"}}>
