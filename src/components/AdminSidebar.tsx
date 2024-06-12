@@ -92,11 +92,11 @@ const DivTwo = ({ location }: { location: Location }) => (
 const DivThree = ({ location }: { location: Location }) => (
 	<div>
 		<h5>Apps</h5>
-		<ul>
+		{/* <ul>
 			<Li url="/admin/app/stopwatch" text="Stopwatch" Icon={FaStopwatch} location={location} />
 			<Li url="/admin/app/coupon" text="Coupon" Icon={RiCoupon3Fill} location={location} />
 			<Li url="/admin/app/toss" text="Toss" Icon={FaGamepad} location={location} />
-		</ul>
+		</ul> */}
 	</div>
 );
 
