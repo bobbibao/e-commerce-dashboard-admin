@@ -139,8 +139,18 @@
 					@include inputStyles(100%, 1rem, unset, 1px solid rgb(57, 57, 57));
 					border-radius: 5px;
 					color: rgb(234, 236, 239);
+					font-size: 0.8rem;
 				}
 				> input:focus {
+					border: 1px solid rgb(240, 185, 11);
+				}
+				> textarea {
+					@include inputStyles(100%, 1rem, unset, 1px solid rgb(57, 57, 57));
+					border-radius: 5px;
+					color: rgb(234, 236, 239);
+					font-size: 0.8rem;
+				}
+				> textarea:focus {
 					border: 1px solid rgb(240, 185, 11);
 				}
 				> div:first-child {
