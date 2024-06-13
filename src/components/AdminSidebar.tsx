@@ -91,7 +91,7 @@ const DivTwo = ({ location }: { location: Location }) => (
 
 const DivThree = ({ location }: { location: Location }) => (
 	<div>
-		<h5>Apps</h5>
+		{/* <h5>Apps</h5>s */}
 		{/* <ul>
 			<Li url="/admin/app/stopwatch" text="Stopwatch" Icon={FaStopwatch} location={location} />
 			<Li url="/admin/app/coupon" text="Coupon" Icon={RiCoupon3Fill} location={location} />

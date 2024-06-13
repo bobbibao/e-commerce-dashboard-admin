@@ -1,9 +1,8 @@
-import { ReactElement, useCallback, useState } from "react";
+import { ReactElement, useCallback, useState, useEffect } from "react";
 import AdminSidebar from "../components/AdminSidebar";
 import { Column } from "react-table";
-import { Link } from "react-router-dom";
 import TableHOC from "../components/TableHOC";
-
+import axios from "axios";
 interface DataType {
 	orderID: number;
 	created: string;
@@ -117,9 +116,34 @@ const arr: DataType[] = [
 ];
 
 const Transactions = () => {
-	const [data] = useState<DataType[]>(arr);
+	const [data, setData] = useState<DataType[]>([]);
 
-	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Transactions", true), []);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const result = await axios.get("http://localhost:8080/orders");
+				console.log(result.data);
+				setData(result.data.map((order: any) => {
+					return {
+						orderID: order.id,
+						created: order.orderDate,
+						customer: "order.customer",
+						email: "order.email",
+						total: order.subtotal,
+						status: <span className="red" style={{color: "rgb(132, 142, 156)"}}>Processing</span>,
+						lastUpdated: "Today",
+						action: `/admin/transaction/${order.id}`
+					}
+				}));
+			}catch(err) {
+				console.log(err);
+				setData([]);
+			}
+		}
+		fetchData();
+	}, []);
+
+	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Transactions", true), [data]);
 
 	return (
 		<div className="admin-container" style={{color: "rgb(234, 236, 239)"}}>
