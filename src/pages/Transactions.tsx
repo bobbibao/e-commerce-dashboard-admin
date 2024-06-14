@@ -3,6 +3,8 @@ import AdminSidebar from "../components/AdminSidebar";
 import { Column } from "react-table";
 import TableHOC from "../components/TableHOC";
 import axios from "axios";
+import { format } from 'date-fns';
+
 interface DataType {
 	orderID: number;
 	created: string;
@@ -23,15 +25,16 @@ const columns: Column<DataType>[] = [
 	{
 		Header: "Created",
 		accessor: "created",
+		Cell: ({ value }) => format(new Date(value), 'MM/dd/yyyy hh:mm a'),
 	},
 	{
 		Header: "Customer",
 		accessor: "customer",
 	},
-	{
-		Header: "Email",
-		accessor: "email",
-	},
+	// {
+	// 	Header: "Email",
+	// 	accessor: "email",
+	// },
 	{
 		Header: "Total",
 		accessor: "total",
@@ -126,11 +129,11 @@ const Transactions = () => {
 				setData(result.data.map((order: any) => {
 					return {
 						orderID: order.id,
-						created: order.orderDate,
-						customer: "order.customer",
-						email: "order.email",
+						created:  order.orderDate ,
+						customer: order.userId,
+						// email: "order.email",
 						total: order.subtotal,
-						status: <span className="red" style={{color: "rgb(132, 142, 156)"}}>Processing</span>,
+						status: <span className="red" style={{color: "rgb(132, 142, 156)"}}>{order.orderStatus}</span>,
 						lastUpdated: "Today",
 						action: `/admin/transaction/${order.id}`
 					}
