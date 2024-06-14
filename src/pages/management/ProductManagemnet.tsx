@@ -34,6 +34,9 @@ const ProductManagement = () => {
         fetchProduct();
     }, [id]);
 
+    if(!product){
+        return "<div> loading... </div>";
+    }
     useEffect(() => {
         if (product) {
             setProductUpdate({

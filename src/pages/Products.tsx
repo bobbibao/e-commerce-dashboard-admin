@@ -310,6 +310,9 @@ const Products = () => {
 		}
 		fetchData();
 	}, []);
+	if(!data){
+        return "<div> loading... </div>";
+    }
 	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Products", true), [data]);
 
 	return (
