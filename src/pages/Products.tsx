@@ -4,6 +4,8 @@ import TableHOC from "../components/TableHOC";
 import { Column } from "react-table";
 import { Link,  } from "react-router-dom";
 import { FaPlus, FaSearch } from "react-icons/fa"; 
+import SearchModal from "../components/SearchModal";
+
 //search icon: react-icons/fa
 import axios from "axios";
 
@@ -233,6 +235,9 @@ const useStyles = makeStyles((theme) => ({
 	  position: "fixed",
 	  bottom: theme.spacing(7),
 	  right: theme.spacing(7),
+	  '& :hover': {
+		opacity: 0.8
+	  }
 	},
 	action: {
 	  marginLeft: "auto",
@@ -251,7 +256,7 @@ const useStyles = makeStyles((theme) => ({
 	  overflow: "scroll",
 	},
 	paper: {
-	  backgroundColor: theme.palette.background.paper,
+	  backgroundColor: "rgb(24, 26, 32)",
 	  // boxShadow: theme.shadows[5],
 	  boxShadow: "0 20px 60px -2px rgba(27,33,58,.4)",
 	  padding: theme.spacing(2, 4, 3),
@@ -289,7 +294,15 @@ const useStyles = makeStyles((theme) => ({
 const Products = () => {
 	const [data, setData] = useState<DataType[]>([]);
 	const classes = useStyles();
+	const [searchModal, setSearchModal] = React.useState(false);
 
+	const openSearchModal = () => {
+		setSearchModal(true);
+	  };
+	
+	  const closeSearchModal = () => {
+		setSearchModal(false);
+	  };
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -314,7 +327,10 @@ const Products = () => {
         return "<div> loading... </div>";
     }
 	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Products", true), [data]);
-
+	const transitionDuration = {
+		enter: 0.5,
+		exit: 0.5,
+	  };
 	return (
 		<div className="admin-container" style={{color: "rgb(234, 236, 239)"}}>
 			<AdminSidebar />
@@ -322,6 +338,26 @@ const Products = () => {
 			<Link to="/admin/product/new" className="create-product-btn">
 				<FaPlus />
 			</Link>
+			<Zoom
+				timeout={transitionDuration}
+				style={{
+				transitionDelay: `${transitionDuration.exit}ms`,
+				}}
+				in={true}
+				unmountOnExit>
+				<Fab
+				className={classes.fab}
+				aria-label="search"
+				onClick={openSearchModal}
+				style={{ 
+					backgroundColor: "rgb(252, 213, 53)",
+					color: "rgb(24, 26, 32)",
+					boxShadow: "0 20px 60px -2px rgba(27,33,58,.4)",
+				}}
+				>
+				<SearchIcon />
+				</Fab>
+			</Zoom>
 			{/* <Link to="/admin/product/new" className="search-product-btn" style={{
 				backgroundColor: "rgb(234, 236, 239)",
 				// boxShadow: theme.shadows[5],
@@ -332,20 +368,19 @@ const Products = () => {
 			}}>
 				<FaSearch />
 			</Link> */}
+			
 			<Modal
          disableAutoFocus={true}
 		 className={classes.modal}
-		 open={false}
+		 open={searchModal}
 		 BackdropComponent={Backdrop}
 		 BackdropProps={{
 		   timeout: 500,
 		 }}
-		 closeAfterTransition
-		 disableBackdropClick
       >
-        <Fade >
+        <Fade in={searchModal}>
           <div className={classes.paper}>
-            <CreateProductForm />
+            <SearchModal onClose={closeSearchModal} />
           </div>
         </Fade>
       </Modal>
