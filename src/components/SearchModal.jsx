@@ -15,11 +15,47 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {
     marginRight: theme.spacing(1),
-    width: '375px'
+    width: '375px',
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#5f6368',
+      },
+      '&:hover fieldset': {
+        borderColor: 'rgb(252, 213, 53)',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'rgb(252, 213, 53)',
+      },
+      color: 'white !important',
+    },
+    '& .MuiInputLabel-root': {
+      color: 'white',
+    },
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: 'rgb(252, 213, 53)',
+    }
   },
   typeField: {
     marginLeft: theme.spacing(1),
-    width: '175px'
+    width: '175px',
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#5f6368',
+      },
+      '&:hover fieldset': {
+        borderColor: 'rgb(252, 213, 53)',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'rgb(252, 213, 53)',
+      },
+      color: 'white !important',
+    },
+    '& .MuiInputLabel-root': {
+      color: 'white',
+    },
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: 'rgb(252, 213, 53)',
+    },
   },
   dense: {
     marginTop: theme.spacing(2),
@@ -32,11 +68,17 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     boxShadow: 'none',
+    backgroundColor: "rgb(252, 213, 53)", 
+    color: "rgb(32, 38, 48)",
+    '&:hover':{
+      opacity: 0.8
+    }
   },
   title: {
     fontFamily: 'ApercuMedium',
     marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
+    color: 'rgb(234, 236, 239)'
   }
 }));
 
@@ -117,11 +159,11 @@ export default function Search(props) {
         ))}
       </TextField>
 
-      <Box display="flex" justifyContent="flex-end" style={{ marginTop: '2em' }}>
-        <Button vsize="small" color="primary" className={classes.button} style={{ marginRight: 10 }} onClick={props.onClose} >
+      <Box style={{ marginTop: '2em', display: "flex", justifyContent: "flex-end" }}>
+        <Button vsize="small" className={classes.button} style={{ marginRight: '1em', backgroundColor: "inherit", color: "rgb(240, 185, 11)"}}  onClick={props.onClose} >
           Cancel
         </Button>
-        <Button variant="contained" color="primary" className={classes.button}>
+        <Button variant="contained"  className={classes.button}>
           Search
         </Button>
       </Box>
