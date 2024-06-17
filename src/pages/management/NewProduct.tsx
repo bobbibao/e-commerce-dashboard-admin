@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import AdminSidebar from "../../components/AdminSidebar";
+import CreateProductForm from "../../components/CreateProductForm";
 
 const NewProduct = () => {
 	const [name, setName] = useState<string>("");
@@ -21,7 +22,9 @@ const NewProduct = () => {
 	return (
 		<div className="admin-container" style={{color: "rgb(234, 236, 239)"}}>
 			<AdminSidebar />
-			<main className="product-management">
+			<CreateProductForm />
+
+			{/* <main className="product-management">
 				<article>
 					<form>
 						<h2>New Product</h2>
@@ -44,7 +47,7 @@ const NewProduct = () => {
 						<button type="submit">Create Product</button>
 					</form>
 				</article>
-			</main>
+			</main> */}
 		</div>
 	);
 };
