@@ -1,6 +1,6 @@
-// File: ./Form/Pricing.js
 import React from 'react';
-import { TextField, Grid } from '@material-ui/core';
+import { Grid, Button, IconButton, Box, Typography } from '@material-ui/core';
+import FieldRow from '../FieldRow';
 
 export default function Pricing({ product, setProduct }) {
   const handleChange = (event) => {
@@ -9,24 +9,41 @@ export default function Pricing({ product, setProduct }) {
   };
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <TextField
-          label="Price"
-          name="price"
-          value={product.price || ''}
-          onChange={handleChange}
-          fullWidth
-        />
+    <Grid container spacing={4}>
+      <Grid item xs={4}>
+        <Box>
+          <Typography variant="h5" gutterBottom>Pricing</Typography>
+          <Typography variant="subtitle1">Enter the cost price, selling price, and discount details.</Typography>
+        </Box>
       </Grid>
-      <Grid item xs={12}>
-        <TextField
-          label="Discount"
-          name="discount"
-          value={product.discount || ''}
-          onChange={handleChange}
-          fullWidth
-        />
+      <Grid container item xs={8}>
+        <Grid item xs={12}>
+          <FieldRow
+            label="Cost Price"
+            name="costPrice"
+            value={product.costPrice || ''}
+            variant="input"
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FieldRow
+            label="Selling Price"
+            name="price"
+            value={product.price || ''}
+            variant="input"
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FieldRow
+            label="Discount"
+            name="discount"
+            value={product.discount || ''}
+            variant="input"
+            onChange={handleChange}
+          />
+        </Grid>
       </Grid>
     </Grid>
   );
