@@ -73,7 +73,7 @@ export default function FieldModal(props) {
   const selectRef = useRef(null);
   const inputLabel = useRef(null);
 
-  const [value, setValue] = useState(props.variant === "select" ? "None" : props.value || '');
+  const [value, setValue] = useState(props.variant === "select" ? '' : props.value || '');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [labelWidth, setLabelWidth] = useState(0);
@@ -121,7 +121,7 @@ export default function FieldModal(props) {
           <Select
             labelId={`select-${props.label}-label`}
             id={`select-${props.label}`}
-            value={value}
+            value={value || categories[0].name}
             onChange={handleSelectChange}
             labelWidth={labelWidth}
             inputProps={{

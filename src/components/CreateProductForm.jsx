@@ -6,19 +6,16 @@ import Media from './Form/Media';
 import Pricing from './Form/Pricing';
 import Shipping from './Form/Shipping';
 import Inventory from './Form/Inventory';
-
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
-import StepIcon from './StepIcon'; // Import StepIcon tùy chỉnh
+import SupplierInfo from './Form/SupplierInfo';  // New import
+import Reviews from './Form/Reviews';            // New import
+import RestockHistory from './Form/RestockHistory'; // New import
 
 const useStyles = makeStyles(theme => ({
   grid: {
     marginBottom: theme.spacing(1),
     marginTop: theme.spacing(1)
   },
-  box: {
-  },
+  box: {},
   root: {
     width: "100%",
     overflow: "scroll",
@@ -34,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: 'none',
     backgroundColor: "rgb(252, 213, 53)", 
     color: "rgb(32, 38, 48)",
-    '&:hover':{
+    '&:hover': {
       opacity: 0.8
     }
   },
@@ -49,26 +46,25 @@ const useStyles = makeStyles(theme => ({
   },
   stepLabel: {
     '& .MuiStepIcon-root': {
-      color: 'rgba(255, 255, 255, 0.5) !important', // màu icon mặc định
+      color: 'rgba(255, 255, 255, 0.5) !important',
     },
     '& .MuiStepIcon-active': {
-      color: '#fcd535 !important', // màu icon khi bước hoạt động
-      "& .MuiStepIcon-text":{
+      color: '#fcd535 !important',
+      "& .MuiStepIcon-text": {
         fill: "rgb(32, 38, 48)"
       }
     },
     '& .MuiStepIcon-completed': {
-      color: '#fcd535 !important', // màu icon khi bước hoàn thành
-      
+      color: '#fcd535 !important',
     },
-    '& .MuiStepLabel-label':{
+    '& .MuiStepLabel-label': {
       color: "rgb(234, 236, 239)"
     }
   }
 }));
 
 function getSteps() {
-  return ['Basics', 'Media', 'Pricing', 'Shipping', 'Inventory'];
+  return ['Basics', 'Media', 'Pricing', 'Inventory', 'Supplier Info'];
 }
 
 export default function CreateProductForm() {
@@ -82,11 +78,16 @@ export default function CreateProductForm() {
     category: '',
     media: '',
     price: '',
-    discount: '',
-    weight: '',
-    dimensions: '',
+    // discount: '',
+    // weight: '',
+    // dimensions: '',
     stock: '',
-    sku: ''
+    sku: '',
+    supplier: '',
+    reviews: [],
+    restockHistory: [],
+    mainImage: '',
+    additionalImages: [],
   });
 
   function getStepContent(stepIndex) {
@@ -97,10 +98,16 @@ export default function CreateProductForm() {
         return <Media product={product} setProduct={setProduct} />;
       case 2:
         return <Pricing product={product} setProduct={setProduct} />;
+      // case 3:
+      //   return <Shipping product={product} setProduct={setProduct} />;
       case 3:
-        return <Shipping product={product} setProduct={setProduct} />;
-      case 4:
         return <Inventory product={product} setProduct={setProduct} />;
+      case 4:
+        return <SupplierInfo product={product} setProduct={setProduct} />;
+      // case 5:
+      //   return <Reviews product={product} setProduct={setProduct} />;
+      // case 6:
+      //   return <RestockHistory product={product} setProduct={setProduct} />;
       default:
         return 'Unknown stepIndex';
     }
@@ -123,23 +130,22 @@ export default function CreateProductForm() {
 
   const handleQuit = () => {
     console.log('Quit clicked');
-    handleReset(); // Reset the stepper for now
+    handleReset();
   };
 
   const handleFinish = () => {
-    // Define the action for the Finish button, e.g., submit the form
     console.log('Finish clicked');
     console.log('Product details:', product);
-    handleReset(); // Reset the stepper for now
+    handleReset();
   };
 
   return (
-    <Container maxWidth="lg" className={classes.root} style={{padding: "2rem"}}>
+    <Container maxWidth="lg" className={classes.root} style={{ padding: "2rem" }}>
       <div className={classes.root}>
-        <Stepper activeStep={activeStep} alternativeLabel style={{backgroundColor: "inherit"}}>
+        <Stepper activeStep={activeStep} alternativeLabel style={{ backgroundColor: "inherit" }}>
           {steps.map(label => (
-            <Step key={label} >
-              <StepLabel className={classes.stepLabel} >{label}</StepLabel>
+            <Step key={label}>
+              <StepLabel className={classes.stepLabel}>{label}</StepLabel>
             </Step>
           ))}
         </Stepper>
@@ -150,13 +156,13 @@ export default function CreateProductForm() {
 
       <Grid container style={{ marginTop: '2em', width: "100%" }}>
         <Grid item xs={6}>
-          <Button variant="outlined" color="secondary" className={classes.button} onClick={handleQuit} style={{backgroundColor: "inherit", color: "#f50057"}}>
+          <Button variant="outlined" color="secondary" className={classes.button} onClick={handleQuit} style={{ backgroundColor: "inherit", color: "#f50057" }}>
             Quit
           </Button>
         </Grid>
         <Grid item xs={6}>
-          <Box style={{display: "flex", justifyContent: "flex-end"}}>
-            {activeStep > 0 ? <Button className={classes.button} style={{ marginRight: '1em', backgroundColor: "inherit", color: "rgb(240, 185, 11)"}} onClick={handleBack}>Back</Button> : null}
+          <Box style={{ display: "flex", justifyContent: "flex-end" }}>
+            {activeStep > 0 ? <Button className={classes.button} style={{ marginRight: '1em', backgroundColor: "inherit", color: "rgb(240, 185, 11)" }} onClick={handleBack}>Back</Button> : null}
             {activeStep === steps.length - 1 ?
               (
                 <Button variant="contained" className={classes.button} onClick={handleFinish}>
@@ -164,7 +170,7 @@ export default function CreateProductForm() {
                 </Button>
               ) : (
                 <Button variant="contained" color="default"
-                className={classes.button} onClick={handleNext}>
+                  className={classes.button} onClick={handleNext}>
                   Next
                 </Button>
               )}

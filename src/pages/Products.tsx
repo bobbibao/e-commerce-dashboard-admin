@@ -3,35 +3,21 @@ import AdminSidebar from "../components/AdminSidebar";
 import TableHOC from "../components/TableHOC";
 import { Column } from "react-table";
 import { Link,  } from "react-router-dom";
-import { FaPlus, FaSearch } from "react-icons/fa"; 
+import { FaPlus } from "react-icons/fa"; 
 import SearchModal from "../components/SearchModal";
 
 //search icon: react-icons/fa
 import axios from "axios";
 
-
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import Grid from "@material-ui/core/Grid";
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-
 import SearchIcon from "@material-ui/icons/Search";
-import ViewModuleIcon from "@material-ui/icons/ViewModule";
-import ViewHeadlineIcon from "@material-ui/icons/ViewHeadline";
-import RefreshIcon from "@material-ui/icons/Refresh";
 import React from "react";
-
-
-import CreateProductForm from "../components/CreateProductForm";
 
 interface DataType {
 	photo: ReactElement;
@@ -63,169 +49,6 @@ const columns: Column<DataType>[] = [
 	// 	accessor: "action",
 	// },
 ];
-
-const img = "https://m.media-amazon.com/images/I/71Un+LxdqYL._AC_UL480_FMwebp_QL65_.jpg";
-const img1 = "https://m.media-amazon.com/images/I/91ExqbocT9L._SL1500_.jpg";
-
-
-
-const arr: DataType[] = [
-	{
-		photo: <img src={img} alt="Shoes" />,
-		name: "Puma Shoes Air jordan Cook Nigga 2023",
-		price: 690,
-		stock: 3,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img1} alt="Shoes" />,
-		name: "Ambrane Extension Board, 10 Ports with 4 USB Ports",
-		price: 7999,
-		stock: 33,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img} alt="Shoes" />,
-		name: "Puma Shoes Air jordan Cook Nigga 2023",
-		price: 690,
-		stock: 3,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img1} alt="Shoes" />,
-		name: "Ambrane Extension Board, 10 Ports with 4 USB Ports",
-		price: 7999,
-		stock: 33,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img} alt="Shoes" />,
-		name: "Puma Shoes Air jordan Cook Nigga 2023",
-		price: 690,
-		stock: 3,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img1} alt="Shoes" />,
-		name: "Ambrane Extension Board, 10 Ports with 4 USB Ports",
-		price: 7999,
-		stock: 33,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img} alt="Shoes" />,
-		name: "Puma Shoes Air jordan Cook Nigga 2023",
-		price: 690,
-		stock: 3,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img1} alt="Shoes" />,
-		name: "Ambrane Extension Board, 10 Ports with 4 USB Ports",
-		price: 7999,
-		stock: 33,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img} alt="Shoes" />,
-		name: "Puma Shoes Air jordan Cook Nigga 2023",
-		price: 690,
-		stock: 3,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img1} alt="Shoes" />,
-		name: "Ambrane Extension Board, 10 Ports with 4 USB Ports",
-		price: 7999,
-		stock: 33,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img} alt="Shoes" />,
-		name: "Puma Shoes Air jordan Cook Nigga 2023",
-		price: 690,
-		stock: 3,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img1} alt="Shoes" />,
-		name: "Ambrane Extension Board, 10 Ports with 4 USB Ports",
-		price: 7999,
-		stock: 33,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img} alt="Shoes" />,
-		name: "Puma Shoes Air jordan Cook Nigga 2023",
-		price: 690,
-		stock: 3,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img1} alt="Shoes" />,
-		name: "Ambrane Extension Board, 10 Ports with 4 USB Ports",
-		price: 7999,
-		stock: 33,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img} alt="Shoes" />,
-		name: "Puma Shoes Air jordan Cook Nigga 2023",
-		price: 690,
-		stock: 3,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img1} alt="Shoes" />,
-		name: "Ambrane Extension Board, 10 Ports with 4 USB Ports",
-		price: 7999,
-		stock: 33,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img} alt="Shoes" />,
-		name: "Puma Shoes Air jordan Cook Nigga 2023",
-		price: 690,
-		stock: 3,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img1} alt="Shoes" />,
-		name: "Ambrane Extension Board, 10 Ports with 4 USB Ports",
-		price: 7999,
-		stock: 33,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img} alt="Shoes" />,
-		name: "Puma Shoes Air jordan Cook Nigga 2023",
-		price: 690,
-		stock: 3,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img1} alt="Shoes" />,
-		name: "Ambrane Extension Board, 10 Ports with 4 USB Ports",
-		price: 7999,
-		stock: 33,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img} alt="Shoes" />,
-		name: "Puma Shoes Air jordan Cook Nigga 2023",
-		price: 690,
-		stock: 3,
-		action: "/admin/product/sajknaskd"
-	},
-	{
-		photo: <img src={img1} alt="Shoes" />,
-		name: "Ambrane Extension Board, 10 Ports with 4 USB Ports",
-		price: 7999,
-		stock: 33,
-		action: "/admin/product/sajknaskd"
-	},
-];
-
 
 const useStyles = makeStyles((theme) => ({
 	fab: {
