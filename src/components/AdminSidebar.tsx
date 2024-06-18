@@ -5,8 +5,9 @@ import { AiFillFileText } from "react-icons/ai";
 import { FaChartBar, FaChartLine, FaChartPie, FaGamepad, FaStopwatch } from "react-icons/fa";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { IoIosPeople } from "react-icons/io";
-import { RiCoupon3Fill, RiDashboardFill, RiShoppingBag3Fill } from "react-icons/ri";
+import { RiCoupon3Fill, RiDashboardFill, RiShoppingBag3Fill} from "react-icons/ri";
 import { Link, Location, useLocation } from "react-router-dom";
+import { MdSupervisorAccount } from 'react-icons/md';
 
 const AdminSidebar = () => {
 	const location = useLocation();
@@ -74,6 +75,7 @@ const DivOne = ({ location }: { location: Location }) => (
 			<Li url="/admin/product" text="Product" Icon={RiShoppingBag3Fill} location={location} />
 			<Li url="/admin/customer" text="Customer" Icon={IoIosPeople} location={location} />
 			<Li url="/admin/transaction" text="Transaction" Icon={AiFillFileText} location={location} />
+			<Li url="/admin/supplier" text="Supplier" Icon={MdSupervisorAccount} location={location} />
 		</ul>
 	</div>
 );
