@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Container, Box, makeStyles, Button, Stepper, Step, StepLabel, Grid } from "@material-ui/core";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Basics from './Form/Basics';
 import Media from './Form/Media';
 import Pricing from './Form/Pricing';
@@ -68,6 +69,7 @@ function getSteps() {
 }
 
 export default function CreateProductForm() {
+  const navigate = useNavigate();
   const classes = useStyles();
   const [createProductModal, setCreateProductModal] = React.useState(false);
 
@@ -76,16 +78,12 @@ export default function CreateProductForm() {
     brand: '',
     description: '',
     category: '',
-    media: '',
+    availableSizes: '',
     price: '',
-    // discount: '',
-    // weight: '',
-    // dimensions: '',
+    importPrice: '',
     stock: '',
     sku: '',
     supplier: '',
-    reviews: [],
-    restockHistory: [],
     mainImage: '',
     additionalImages: [],
   });
@@ -129,14 +127,47 @@ export default function CreateProductForm() {
   };
 
   const handleQuit = () => {
-    console.log('Quit clicked');
-    handleReset();
+    navigate(-1);
   };
+  const uploadImages = async () => {
+    const formData = new FormData();
+    formData.append('mainImage', product.mainImage);
 
-  const handleFinish = () => {
-    console.log('Finish clicked');
-    console.log('Product details:', product);
-    handleReset();
+    product.additionalImages.forEach((image, index) => {
+      formData.append('additionalImages', image);
+    });
+  
+  
+    try {
+      const res = await axios.post('http://localhost:8080/products/uploadFiles', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      const { mainImage, additionalImages } = res.data;
+      setProduct(prevProduct => ({
+        ...prevProduct,
+        mainImage,
+        additionalImages
+      }));
+    } catch (error) {
+      console.error('Error uploading images:', error);
+    }
+  };
+  
+  const handleFinish = async () => {
+ 
+    await uploadImages();
+    console.log(product);
+    try {
+      const res = await axios.post('http://localhost:8080/products', product);
+      console.log(res);
+      if (res.status === 201) {
+        navigate('/admin/product', replace = true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
