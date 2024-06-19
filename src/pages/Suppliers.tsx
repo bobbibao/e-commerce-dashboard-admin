@@ -19,7 +19,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import React from "react";
 
 interface SupplierType {
-  logo: ReactElement;
+  // logo: ReactElement;
+  id: number;
   name: string;
   contact: string;
   phone: string;
@@ -30,8 +31,8 @@ interface SupplierType {
 
 const columns: Column<SupplierType>[] = [
   {
-    Header: "Logo",
-    accessor: "logo",
+    Header: "Id",
+    accessor: "id",
   },
   {
     Header: "Name",
@@ -139,9 +140,11 @@ const Suppliers = () => {
     const fetchData = async () => {
       try {
         const result = await axios.get("http://localhost:8080/suppliers");
+        console.log(result.data);
         setData(result.data.map((supplier: any) => {
           return {
-            logo: <img src={`https://${supplier.supplierLogo}`} alt={supplier.supplierName} />,
+            // logo: <img src={`https://${supplier.supplierLogo}`} alt={supplier.supplierName} />,
+            id: supplier.supplierID,
             name: supplier.supplierName,
             contact: supplier.contactName,
             phone: supplier.contactPhone,
