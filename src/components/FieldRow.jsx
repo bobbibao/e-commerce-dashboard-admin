@@ -77,10 +77,7 @@ export default function FieldModal(props) {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [labelWidth, setLabelWidth] = useState(0);
-  const [categories, setCategories] = useState([
-    { name: 'Clothes' }, { name: 'Shoes' }, { name: 'Bag' }, { name: 'Watch' }, { name: 'Misc' }
-  ]);
-
+  const [categories, setCategories] = useState(props.options);
   useEffect(() => {
     if (props.variant === "select") {
       setLabelWidth(inputLabel.current.offsetWidth);
@@ -89,12 +86,8 @@ export default function FieldModal(props) {
 
   const handleChange = (event) => {
     setValue(event.target.value);
-  };
-
-  const handleSelectChange = (event) => {
-    setValue(event.target.value);
-    if (selectRef.current) {
-      selectRef.current.blur();
+    if (props.onChange) {
+      props.onChange(event);
     }
   };
 
@@ -121,16 +114,16 @@ export default function FieldModal(props) {
           <Select
             labelId={`select-${props.label}-label`}
             id={`select-${props.label}`}
-            value={value || categories[0].name}
-            onChange={handleSelectChange}
+            value={value}
+            onChange={handleChange}
             labelWidth={labelWidth}
             inputProps={{
               ref: selectRef,
             }}
           >
             {categories.map((category) => (
-              <MenuItem key={category.name} value={category.name}>
-                {category.name}
+              <MenuItem key={category.value} value={category.value}>
+                {category.value}
               </MenuItem>
             ))}
           </Select>

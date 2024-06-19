@@ -4,15 +4,19 @@ import { Add, Remove } from '@material-ui/icons';
 import FieldRow from '../FieldRow';
 
 export default function Inventory({ product, setProduct }) {
-  if (!product.inventory) {
-    setProduct(prevProduct => ({ ...prevProduct, inventory: [] }));
+  // if (!product.inventory) {
+  //   setProduct(prevProduct => ({ ...prevProduct, inventory: [] }));
+  // }
+  // const handleChange = (index, event) => {
+  //   const { name, value } = event.target;
+  //   const updatedInventory = [...product.inventory];
+  //   updatedInventory[index] = { ...updatedInventory[index], [name]: value };
+  //   setProduct(prevProduct => ({ ...prevProduct, inventory: updatedInventory }));
+  // };
+
+  const handleChange = (name, value) => {
+    setProduct(prevProduct => ({ ...prevProduct, [name]: value }));
   }
-  const handleChange = (index, event) => {
-    const { name, value } = event.target;
-    const updatedInventory = [...product.inventory];
-    updatedInventory[index] = { ...updatedInventory[index], [name]: value };
-    setProduct(prevProduct => ({ ...prevProduct, inventory: updatedInventory }));
-  };
 
   const handleAddWarehouse = () => {
     setProduct(prevProduct => ({

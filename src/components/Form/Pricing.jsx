@@ -3,8 +3,7 @@ import { Grid, Button, IconButton, Box, Typography } from '@material-ui/core';
 import FieldRow from '../FieldRow';
 
 export default function Pricing({ product, setProduct }) {
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const handleChange = (name, value) => {
     setProduct(prevProduct => ({ ...prevProduct, [name]: value }));
   };
 
@@ -20,10 +19,10 @@ export default function Pricing({ product, setProduct }) {
         <Grid item xs={12}>
           <FieldRow
             label="Cost Price"
-            name="costPrice"
+            name="importPrice"
             value={product.costPrice || ''}
             variant="input"
-            onChange={handleChange}
+            onChange={(e) => handleChange('importPrice', e.target.value)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -32,10 +31,10 @@ export default function Pricing({ product, setProduct }) {
             name="price"
             value={product.price || ''}
             variant="input"
-            onChange={handleChange}
+            onChange={(e) => handleChange('price', e.target.value)}
           />
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <FieldRow
             label="Discount"
             name="discount"
@@ -43,7 +42,7 @@ export default function Pricing({ product, setProduct }) {
             variant="input"
             onChange={handleChange}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   );

@@ -13,7 +13,7 @@ export default function Media({ product, setProduct }) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setMainImage(reader.result);
-        setProduct(prevProduct => ({ ...prevProduct, mainImage: reader.result }));
+        setProduct(prevProduct => ({ ...prevProduct, mainImage: file }));
       };
       reader.readAsDataURL(file);
     }
@@ -26,7 +26,10 @@ export default function Media({ product, setProduct }) {
       reader.onloadend = () => {
         const newImages = [...additionalImages, reader.result];
         setAdditionalImages(newImages);
-        setProduct(prevProduct => ({ ...prevProduct, additionalImages: newImages }));
+        setProduct(prevProduct => ({ ...prevProduct, additionalImages: [
+          ...prevProduct.additionalImages,
+          file
+        ] }));
       };
       reader.readAsDataURL(file);
     }

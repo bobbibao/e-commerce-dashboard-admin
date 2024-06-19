@@ -12,6 +12,7 @@ export default function Basics({ product, setProduct }) {
   const classes = useStyles();
 
   const handleChange = (name, value) => {
+    console.log(name, value);
     setProduct(prevProduct => ({ ...prevProduct, [name]: value }));
   };
 
@@ -59,13 +60,13 @@ export default function Basics({ product, setProduct }) {
             openModal={false}
             variant="select"
             options={[
-              { value: 'clothing', label: 'Clothing' },
-              { value: 'electronics', label: 'Electronics' },
-              { value: 'furniture', label: 'Furniture' },
+              { value: 'SHOES' },
+              { value: 'T_SHIRTS'},
+              { value: 'SHORTS'},
             ]}
           />
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <FieldRow
             label="Mã sản phẩm"
             value={product.productCode}
@@ -73,8 +74,8 @@ export default function Basics({ product, setProduct }) {
             openModal={false}
             variant="input"
           />
-        </Grid>
-        <Grid item xs={12}>
+        </Grid> */}
+        {/* <Grid item xs={12}>
           <FieldRow
             label="Nhà cung cấp"
             value={product.supplier}
@@ -87,7 +88,7 @@ export default function Basics({ product, setProduct }) {
               { value: 'supplier3', label: 'Supplier 3' },
             ]}
           />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12}>
           <FieldRow
             label="Kích thước có sẵn"
@@ -97,7 +98,7 @@ export default function Basics({ product, setProduct }) {
             variant="input"
           />
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <FieldRow
             label="Trạng thái"
             value={product.status}
@@ -109,7 +110,7 @@ export default function Basics({ product, setProduct }) {
               { value: 'out_of_stock', label: 'Out of Stock' },
             ]}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   );

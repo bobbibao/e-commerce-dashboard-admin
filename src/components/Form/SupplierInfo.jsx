@@ -8,14 +8,13 @@ export default function SupplierInfo({ product, setProduct }) {
   useEffect(() => {
     // Fetch supplier data from an API or define it here
     setSuppliers([
-      { id: 1, name: 'Supplier A' },
-      { id: 2, name: 'Supplier B' },
-      { id: 3, name: 'Supplier C' },
+      { value: 'SHOES' },
+      { value: 'T_SHIRTS'},
+      { value: 'SHORTS'},
     ]);
   }, []);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const handleChange = (name, value) => {
     setProduct(prevProduct => ({ ...prevProduct, [name]: value }));
   };
 
@@ -34,14 +33,17 @@ export default function SupplierInfo({ product, setProduct }) {
             name="supplier"
             value={product.supplier || ''}
             variant="select"
-            options={suppliers.map(supplier => ({
-              value: supplier.name,
-              label: supplier.name,
-            }))}
-            onChange={handleChange}
+            options={
+              [
+                { value: '1' },
+                { value: '2'},
+                { value: '3'},
+              ]
+            }
+            onChange={(e) => handleChange('supplier', e.target.value)}
           />
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <FieldRow
             label="Supplier Contact"
             name="supplierContact"
@@ -49,7 +51,7 @@ export default function SupplierInfo({ product, setProduct }) {
             variant="input"
             onChange={handleChange}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
     </Grid>
   );
