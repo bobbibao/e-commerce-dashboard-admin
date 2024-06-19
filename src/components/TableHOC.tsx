@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 // ...rest of your code
 function TableHOC<T extends Object>(columns: Column<T>[], data: T[], containerClassName: string, heading: string, showPagination: boolean = false) {
 	const navigate = useNavigate();
-
 	return function HOC() {
 		const options: TableOptions<T> = {
 			columns,
@@ -71,7 +70,10 @@ function TableHOC<T extends Object>(columns: Column<T>[], data: T[], containerCl
 						})}
 					</tbody>
 				</table>
-				{showPagination && pageCount >= 5 && (
+				{
+					!data.length && <div style={{ textAlign: "center", marginTop: "2rem" }}>No data found</div>
+				}
+				{showPagination && data.length >= 5 && (
 					<div className="table-pagination">
 						<button disabled={!canPreviousPage} onClick={previousPage}>
 							Prev

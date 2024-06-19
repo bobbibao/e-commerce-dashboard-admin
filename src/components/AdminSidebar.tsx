@@ -56,6 +56,8 @@ const AdminSidebar = () => {
 				<DivOne location={location} />
 				<DivTwo location={location} />
 				<DivThree location={location} />
+				<DivFour location={location} />
+				<DivFive location={location} />
 
 				{phoneActive && (
 					<button id="close-sidebar" onClick={() => setShowModal(false)}>
@@ -72,35 +74,76 @@ const DivOne = ({ location }: { location: Location }) => (
 		<h5>Dashboard</h5>
 		<ul>
 			<Li url="/admin/dashboard" text="Dashboard" Icon={RiDashboardFill} location={location} />
+			<Li url="/admin/chart/bar" text="Bar" Icon={FaChartBar} location={location} />
+			<Li url="/admin/chart/pie" text="Pie" Icon={FaChartPie} location={location} />
+			<Li url="/admin/chart/line" text="Line" Icon={FaChartLine} location={location} />
+		</ul>
+		{/* <ul>
 			<Li url="/admin/product" text="Product" Icon={RiShoppingBag3Fill} location={location} />
 			<Li url="/admin/customer" text="Customer" Icon={IoIosPeople} location={location} />
 			<Li url="/admin/transaction" text="Transaction" Icon={AiFillFileText} location={location} />
 			<Li url="/admin/supplier" text="Supplier" Icon={MdSupervisorAccount} location={location} />
-		</ul>
+		</ul> */}
 	</div>
 );
 
 const DivTwo = ({ location }: { location: Location }) => (
 	<div>
-		<h5>Charts</h5>
+		<h5>Sản phẩm</h5>
 		<ul>
-			<Li url="/admin/chart/bar" text="Bar" Icon={FaChartBar} location={location} />
-			<Li url="/admin/chart/pie" text="Pie" Icon={FaChartPie} location={location} />
-			<Li url="/admin/chart/line" text="Line" Icon={FaChartLine} location={location} />
+			<Li url="/admin/products" text="Sản phầm" Icon={RiShoppingBag3Fill} location={location} />
+			<Li url="/admin/product/new" text="Nhập hàng" Icon={RiShoppingBag3Fill} location={location} />
+			<Li url="/admin/product/stock" text="Nhập kho" Icon={RiShoppingBag3Fill} location={location} />
+			<Li url="/admin/product/price" text="Giá sản phẩm" Icon={RiShoppingBag3Fill} location={location} />
+			<Li url="/admin/product/coupon" text="Khuyến mãi" Icon={RiShoppingBag3Fill} location={location} />
+		</ul>
+	</div>
+);
+const DivThree = ({ location }: { location: Location }) => (
+	<div>
+		<h5>Nhà cung cấp</h5>
+		<ul>
+			<Li url="/admin/supplier" text="Nhà cung cấp" Icon={MdSupervisorAccount} location={location} />
 		</ul>
 	</div>
 );
 
-const DivThree = ({ location }: { location: Location }) => (
+const DivFour = ({ location }: { location: Location }) => (
 	<div>
-		{/* <h5>Apps</h5>s */}
-		{/* <ul>
-			<Li url="/admin/app/stopwatch" text="Stopwatch" Icon={FaStopwatch} location={location} />
-			<Li url="/admin/app/coupon" text="Coupon" Icon={RiCoupon3Fill} location={location} />
-			<Li url="/admin/app/toss" text="Toss" Icon={FaGamepad} location={location} />
-		</ul> */}
+		<h5>Giao dịch</h5>
+		<ul>
+			<Li url="/admin/transaction" text="Giao dịch" Icon={AiFillFileText} location={location} />
+		</ul>
 	</div>
 );
+
+const DivFive = ({ location }: { location: Location }) => (
+	<div>
+		<h5>Khách hàng</h5>
+		<ul>
+			<Li url="/admin/customer" text="Khách hàng" Icon={IoIosPeople} location={location} />
+		</ul>
+	</div>
+);
+
+
+// const DivTwo = ({ location }: { location: Location }) => (
+// 	<div>
+// 		<h5>Charts</h5>
+		
+// 	</div>
+// );
+
+// const DivThree = ({ location }: { location: Location }) => (
+// 	<div>
+// 		{/* <h5>Apps</h5>s */}
+// 		{/* <ul>
+// 			<Li url="/admin/app/stopwatch" text="Stopwatch" Icon={FaStopwatch} location={location} />
+// 			<Li url="/admin/app/coupon" text="Coupon" Icon={RiCoupon3Fill} location={location} />
+// 			<Li url="/admin/app/toss" text="Toss" Icon={FaGamepad} location={location} />
+// 		</ul> */}
+// 	</div>
+// );
 
 interface LiProps {
 	url: string;
