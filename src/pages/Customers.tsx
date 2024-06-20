@@ -14,6 +14,7 @@ interface DataType {
     gender: string;
     address: string;
     phone: string;
+    active: string;
     role: string;
     action: ReactElement;
 }
@@ -28,7 +29,7 @@ const columns: Column<DataType>[] = [
 		accessor: "id",
 	},
     {
-        Header: "Name",
+        Header: "Tên",
         accessor: "name",
     },
     {
@@ -36,15 +37,15 @@ const columns: Column<DataType>[] = [
         accessor: "email",
     },
     {
-        Header: "Gender",
+        Header: "Giới tính",
         accessor: "gender",
     },
     {
-        Header: "Address",
+        Header: "Địa chỉ",
         accessor: "address",
     },
     {
-        Header: "Phone",
+        Header: "Số điện thoại",
         accessor: "phone",
     },
     {
@@ -77,6 +78,9 @@ const columns: Column<DataType>[] = [
                 </select>
             );
         },
+    },{
+        Header: "Hoạt động gần nhất",
+        accessor: "active",
     },
     // {
     //     Header: "Action",

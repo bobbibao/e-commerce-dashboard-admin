@@ -19,16 +19,16 @@ interface DataType {
 
 const columns: Column<DataType>[] = [
 	{
-		Header: "Order ID",
+		Header: "ID",
 		accessor: "orderID",
 	},
 	{
-		Header: "Created",
+		Header: "Ngày tạo",
 		accessor: "created",
 		Cell: ({ value }) => format(new Date(value), 'MM/dd/yyyy hh:mm a'),
 	},
 	{
-		Header: "Customer",
+		Header: "Khách hàng",
 		accessor: "customer",
 	},
 	// {
@@ -36,15 +36,15 @@ const columns: Column<DataType>[] = [
 	// 	accessor: "email",
 	// },
 	{
-		Header: "Total",
+		Header: "Tổng tiền",
 		accessor: "total",
 	},
 	{
-		Header: "Status",
+		Header: "Trạng thái",
 		accessor: "status",
 	},
 	{
-		Header: "Last Updated",
+		Header: "Lần cập nhật cuối",
 		accessor: "lastUpdated",
 	},
 	// {
