@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0 20px 60px -2px rgba(27,33,58,.4)',
     padding: 0,
     borderRadius: '8px',
-    minWidth: 550
+    // minWidth: 550
   },
   textfield: {
     '& .MuiOutlinedInput-root': {
@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   formControl: {
-    minWidth: 150,
+    width: '100%',
     marginTop: theme.spacing(2),
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
@@ -107,7 +107,7 @@ export default function FieldModal(props) {
           variant="outlined"
         />
       ) : (
-        <FormControl variant="outlined" className={classes.formControl} margin="normal">
+        <FormControl variant="outlined" className={classes.formControl} margin="normal" >
           <InputLabel ref={inputLabel} htmlFor="outlined-category-simple" id={`select-${props.label}-label`}>
             {props.label}
           </InputLabel>
