@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Container, Box, makeStyles, Button, Stepper, Step, StepLabel, Grid, TextField, FormControl, InputLabel, Select, MenuItem, IconButton } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { Container, Box, makeStyles, Button, Typography, Stepper, Step, StepLabel, Grid, TextField, FormControl, InputLabel, Select, MenuItem, IconButton } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddIcon from '@material-ui/icons/Add';
@@ -56,10 +56,11 @@ const useStyles = makeStyles(theme => ({
   },
   addButton: {
     marginLeft: theme.spacing(1),
-    backgroundColor: "rgb(76, 175, 80)",
+    backgroundColor: "inherit",
     color: "#fff",
     '&:hover': {
-      backgroundColor: "rgb(67, 160, 71)"
+      color: "rgb(32, 38, 48)",
+      backgroundColor: "rgb(240, 185, 11) !important"
     }
   },
   deleteButton: {
@@ -71,6 +72,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   textfield: {
+    width: '100%',
     color: 'white',
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
@@ -93,7 +95,6 @@ const useStyles = makeStyles(theme => ({
   },
   formControl: {
     color: 'white',
-    minWidth: 150,
     marginTop: theme.spacing(2),
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
@@ -126,6 +127,7 @@ export default function ImportProductStockForm() {
   const [activeStep, setActiveStep] = useState(0);
   const [products, setProducts] = useState([{ product: '', quantity: '' }]);
   const [supplier, setSupplier] = useState('');
+  const [supplierDetails, setSupplierDetails] = useState(null);
   const steps = getSteps();
 
   const handleProductChange = (index, event) => {
@@ -143,42 +145,60 @@ export default function ImportProductStockForm() {
     setProducts(newProducts);
   };
 
+  const fetchSupplierDetails = async (supplierName) => {
+    try {
+      const response = await axios.get(`/api/suppliers/${supplierName}`);
+      setSupplierDetails(response.data);
+    } catch (error) {
+      console.error('Error fetching supplier details:', error);
+      setSupplierDetails(null);
+    }
+  };
+
+  const handleSupplierChange = (event, newValue) => {
+    setSupplier(newValue);
+    if (newValue) {
+      fetchSupplierDetails(newValue);
+    } else {
+      setSupplierDetails(null);
+    }
+  };
+
   function getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
         return (
           <div>
             {products.map((product, index) => (
-              <Grid container spacing={2} key={index} alignItems="flex-end">
-                <Grid item xs={5}>
-                <Autocomplete
-                  options={["product1", "product2", "product3", "product4"]}
-                  getOptionLabel={(option) => option}
-                  value={product.product}
-                  onChange={(e, newValue) => handleProductChange(index, { target: { name: "product", value: newValue } })}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Product"
-                      variant="outlined"
-                      className={classes.textfield}
-                      InputProps={{
-                        ...params.InputProps,
-                        classes: {
-                          root: classes.textfield,
-                          focused: classes.textfield,
-                        }
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.textfield,
-                          focused: classes.textfield,
-                        }
-                      }}
-                    />
-                  )}
-                />
-
+              <Grid container spacing={2} key={index} alignItems="center">
+                <Grid item xs={6}>
+                  <Autocomplete
+                    options={["product1", "product2", "product3", "product4"]}
+                    getOptionLabel={(option) => option}
+                    value={product.product}
+                    onChange={(e, newValue) => handleProductChange(index, { target: { name: "product", value: newValue } })}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Product"
+                        variant="outlined"
+                        className={classes.textfield}
+                        InputProps={{
+                          ...params.InputProps,
+                          classes: {
+                            root: classes.textfield,
+                            focused: classes.textfield,
+                          }
+                        }}
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.textfield,
+                            focused: classes.textfield,
+                          }
+                        }}
+                      />
+                    )}
+                  />
                 </Grid>
                 <Grid item xs={5}>
                   <TextField
@@ -197,8 +217,8 @@ export default function ImportProductStockForm() {
                     }}
                   />
                 </Grid>
-                <Grid item xs={2}>
-                  <IconButton style={{padding: "5px"}}
+                <Grid item xs={1}>
+                  <IconButton style={{ padding: "5px" }}
                     className={classes.deleteButton}
                     onClick={() => handleRemoveProduct(index)}
                     disabled={products.length === 1}
@@ -209,54 +229,67 @@ export default function ImportProductStockForm() {
               </Grid>
             ))}
             <Button
-            style={{marginTop: "30px"}}
+              style={{ marginTop: "30px" }}
               variant="contained"
               className={classes.addButton}
               startIcon={<AddIcon />}
               onClick={handleAddProduct}
             >
-              Add Product
+              Thêm
             </Button>
           </div>
         );
       case 1:
         return (
-          <Autocomplete
-                  options={["supplier1", "supplier2", "supplier3", "product4"]}
-                  getOptionLabel={(option) => option}
-                  value={supplier}
-                  onChange={(e, newValue) => setSupplier(newValue)}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Supplier"
-                      variant="outlined"
-                      className={classes.textfield}
-                      InputProps={{
-                        ...params.InputProps,
-                        classes: {
-                          root: classes.textfield,
-                          focused: classes.textfield,
-                        }
-                      }}
-                      InputLabelProps={{
-                        classes: {
-                          root: classes.textfield,
-                          focused: classes.textfield,
-                        }
-                      }}
-                    />
-                  )}
+          <div>
+            <Autocomplete
+              options={["supplier1", "supplier2", "supplier3", "supplier4"]}
+              getOptionLabel={(option) => option}
+              value={supplier}
+              onChange={handleSupplierChange}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Supplier"
+                  variant="outlined"
+                  className={classes.textfield}
+                  InputProps={{
+                    ...params.InputProps,
+                    classes: {
+                      root: classes.textfield,
+                      focused: classes.textfield,
+                    }
+                  }}
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.textfield,
+                      focused: classes.textfield,
+                    }
+                  }}
                 />
+              )}
+            />
+            {supplierDetails && (
+              <Box mt={2} style={{marginTop: 10}}>
+                <Typography variant="h6">Supplier Details</Typography>
+                <Typography><strong>Name:</strong> {supplierDetails.name}</Typography>
+                <Typography><strong>Address:</strong> {supplierDetails.address}</Typography>
+                <Typography><strong>Phone:</strong> {supplierDetails.phone}</Typography>
+              </Box>
+            )}
+          </div>
         );
       case 2:
         return (
           <div>
-            <p><strong>Products:</strong></p>
-            {products.map((product, index) => (
-              <p key={index}>Product: {product.product}, Quantity: {product.quantity}</p>
-            ))}
-            <p><strong>Supplier:</strong> {supplier}</p>
+            <Typography variant="h6">Products</Typography>
+            <ul>
+              {products.map((product, index) => (
+                <li key={index}>{product.product} - {product.quantity}</li>
+              ))}
+            </ul>
+            <Typography variant="h6">Supplier</Typography>
+            <Typography>{supplier}</Typography>
           </div>
         );
       default:
@@ -276,6 +309,7 @@ export default function ImportProductStockForm() {
     setActiveStep(0);
     setProducts([{ product: '', quantity: '' }]);
     setSupplier('');
+    setSupplierDetails(null);
   };
 
   const handleQuit = () => {
@@ -293,6 +327,7 @@ export default function ImportProductStockForm() {
     }
   };
 
+
   return (
     <Container maxWidth="lg" className={classes.root} style={{ padding: "2rem", height: "100vh", }}>
       <div className={classes.root}>
@@ -305,7 +340,20 @@ export default function ImportProductStockForm() {
         </Stepper>
       </div>
       <Box className={classes.content}>
-        {getStepContent(activeStep)}
+      <Grid container spacing={4}>
+        <Grid item  xs={4}>
+          <Box>
+            <Typography variant="h5" className={classes.title} gutterBottom>Basics</Typography>
+            <Typography variant="subtitle1">Name, brand, description, and other essential details of the product.</Typography>
+          </Box>
+        </Grid>
+        <Grid container item xs={8} style={{ color: "rgb(234, 236, 239)" }}>
+          <Grid item xs={12}>
+          {getStepContent(activeStep)}
+          </Grid>
+        </Grid>
+      </Grid>
+       
       </Box>
 
       <Grid container style={{ marginTop: '2em', width: "100%" }}>
