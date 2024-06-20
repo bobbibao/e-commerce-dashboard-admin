@@ -5,6 +5,12 @@
 	@include square(100%);
 	// display: flex;
 	// flex-direction: column;
+	.grid-container {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr); /* Tạo ra 4 cột với kích thước bằng nhau */
+		grid-template-rows: repeat(3, auto); /* Tạo ra 3 dòng với kích thước tự động */
+		gap: 10px; /* Khoảng cách giữa các dòng và cột */
+	  }
 }
 
 .create-product-btn {
@@ -47,6 +53,7 @@
 
 .product-management {
 	overflow-y: auto;
+	width: 100%;
 	&::-webkit-scrollbar {
 		display: none;
 	}
@@ -62,7 +69,6 @@
 		}
 		width: 100%;
 		height: 90vh;
-		max-width: 450px;
 		// box-shadow: -2px 0px 1px rgba(0, 0, 0, 0.216);
 		box-shadow: -2px 0px 1px rgba(0, 0, 0, 0.216), inset -2px 0 5px rgb(119 114 114 / 20%);
 		background-color: rgb(30, 35, 41);
