@@ -5,6 +5,9 @@ import axios from "axios";
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import FieldRow from './FieldRow';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -118,22 +121,27 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function getSteps() {
-  return ['Select Products', 'Provide Supplier Information', 'Review and Confirm'];
+  return ['Chọn sản phẩm và số lượng', 'Cung cấp thông tin nhà cung cấp', 'Xác nhận thông tin'];
 }
 
 export default function ImportProductStockForm() {
   const navigate = useNavigate();
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
+  const [productList, setProductList] = useState([]);
+  const [supplierList, setSupplierList] = useState([]);
   const [products, setProducts] = useState([{ product: '', quantity: '' }]);
   const [supplier, setSupplier] = useState('');
-  const [supplierDetails, setSupplierDetails] = useState(null);
+  const [supplierDetails, setSupplierDetails] = useState({});
   const steps = getSteps();
 
   const handleProductChange = (index, event) => {
     const newProducts = [...products];
     newProducts[index][event.target.name] = event.target.value;
     setProducts(newProducts);
+    setProductList(
+      productList.filter(product => product.id+"" !== newProducts[index].product.split(' - ')[0])
+    );
   };
 
   const handleAddProduct = () => {
@@ -146,14 +154,38 @@ export default function ImportProductStockForm() {
   };
 
   const fetchSupplierDetails = async (supplierName) => {
-    try {
-      const response = await axios.get(`/api/suppliers/${supplierName}`);
-      setSupplierDetails(response.data);
-    } catch (error) {
-      console.error('Error fetching supplier details:', error);
-      setSupplierDetails(null);
-    }
+    const supplierID = supplierName.split(' - ')[0];
+    supplierList.forEach(supplier => {
+      if (supplier.supplierID+"" === supplierID) {
+        setSupplierDetails(supplier);
+      }
+    });
   };
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/products');
+        console.log('Products:', response.data);
+        setProductList(response.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setProductList([]);
+      }
+    };
+    const fetchSuppliers = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/suppliers');
+        console.log('Suppliers:', response.data);
+        setSupplierList(response.data);
+      } catch (error) {
+        console.error('Error fetching suppliers:', error);
+        setSupplierList([]);
+      }
+    }
+    fetchProducts();
+    fetchSuppliers();
+  }, []);
 
   const handleSupplierChange = (event, newValue) => {
     setSupplier(newValue);
@@ -173,14 +205,14 @@ export default function ImportProductStockForm() {
               <Grid container spacing={2} key={index} alignItems="center">
                 <Grid item xs={6}>
                   <Autocomplete
-                    options={["product1", "product2", "product3", "product4"]}
+                    options={productList.map(product => product.id + " - " + product.name)}
                     getOptionLabel={(option) => option}
                     value={product.product}
                     onChange={(e, newValue) => handleProductChange(index, { target: { name: "product", value: newValue } })}
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label="Product"
+                        label="ID - Tên sản phẩm"
                         variant="outlined"
                         className={classes.textfield}
                         InputProps={{
@@ -202,7 +234,7 @@ export default function ImportProductStockForm() {
                 </Grid>
                 <Grid item xs={5}>
                   <TextField
-                    label="Quantity"
+                    label="Số lượng"
                     name="quantity"
                     type="number"
                     variant="outlined"
@@ -243,14 +275,14 @@ export default function ImportProductStockForm() {
         return (
           <div>
             <Autocomplete
-              options={["supplier1", "supplier2", "supplier3", "supplier4"]}
+              options={supplierList.map(supplier => supplier.supplierID + ' - ' + supplier.supplierName)}
               getOptionLabel={(option) => option}
               value={supplier}
               onChange={handleSupplierChange}
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Supplier"
+                  label="ID - Tên nhà cung cấp"
                   variant="outlined"
                   className={classes.textfield}
                   InputProps={{
@@ -266,31 +298,76 @@ export default function ImportProductStockForm() {
                       focused: classes.textfield,
                     }
                   }}
+                  required
                 />
               )}
             />
-            {supplierDetails && (
-              <Box mt={2} style={{marginTop: 10}}>
-                <Typography variant="h6">Supplier Details</Typography>
-                <Typography><strong>Name:</strong> {supplierDetails.name}</Typography>
-                <Typography><strong>Address:</strong> {supplierDetails.address}</Typography>
-                <Typography><strong>Phone:</strong> {supplierDetails.phone}</Typography>
-              </Box>
-            )}
           </div>
         );
       case 2:
         return (
-          <div>
-            <Typography variant="h6">Products</Typography>
-            <ul>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h6" style={{letterSpacing: 2, opacity: 0.8}}>Sản phẩm nhập kho</Typography>
               {products.map((product, index) => (
-                <li key={index}>{product.product} - {product.quantity}</li>
+                <Grid container spacing={1} key={index}>
+                  <Grid item xs={2}>
+                  <FieldRow
+                      label="ID"
+                      value={product.product.split(' - ')[0]}
+                      openModal={false}
+                      variant="input"
+                    />
+                  </Grid>
+                  <Grid item xs={7}>
+                  <FieldRow
+                      label="Tên sản phẩm"
+                      value={product.product.split(' - ')[1]}
+                      openModal={false}
+                      variant="input"
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                  <FieldRow
+                      label="Số lượng"
+                      value={product.quantity}
+                      openModal={false}
+                      variant="input"
+                    />
+                  </Grid>
+                </Grid>
               ))}
-            </ul>
-            <Typography variant="h6">Supplier</Typography>
-            <Typography>{supplier}</Typography>
-          </div>
+            </Grid>
+            <Grid item xs={12} style={{ marginTop: 20 }}>
+              <Typography variant="h6" style={{letterSpacing: 2, opacity: 0.8}}>Thông tin nhà cung cấp</Typography>
+              <Grid container spacing={1}>
+                  <Grid item xs={2}>
+                  <FieldRow
+                      label="ID"
+                      value={supplierDetails ? supplierDetails.supplierID : ''}
+                      openModal={false}
+                      variant="input"
+                    />
+                  </Grid>
+                  <Grid item xs={7}>
+                  <FieldRow
+                      label="Tên nhà cung cấp"
+                      value={supplierDetails ? supplierDetails.supplierName : ''}
+                      openModal={false}
+                      variant="input"
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                  <FieldRow
+                      label="Số điện thoại"
+                      value={supplierDetails ? supplierDetails.contactPhone : ''}
+                      openModal={false}
+                      variant="input"
+                    />
+                  </Grid>
+                </Grid>
+            </Grid>
+          </Grid>
         );
       default:
         return 'Unknown stepIndex';
@@ -318,19 +395,26 @@ export default function ImportProductStockForm() {
 
   const handleFinish = async () => {
     try {
-      await axios.post('/api/import', { products, supplier });
+      await axios.post('http://localhost:8080/products/import?supplier='+supplier.split(' - ')[0], 
+        products.map(product => {
+          return {
+            product: product.product.split(' - ')[0],
+            quantity: product.quantity
+          };
+        })
+      );
+      toast.success('Nhập kho thành công.');
       handleReset();
-      alert('Products imported successfully!');
     } catch (error) {
       console.error('Error importing products:', error);
-      alert('Failed to import products.');
+      toast.error('Nhập kho không thành công.');
     }
   };
-
 
   return (
     <Container maxWidth="lg" className={classes.root} style={{ padding: "2rem", height: "100vh", }}>
       <div className={classes.root}>
+      <ToastContainer />
         <Stepper activeStep={activeStep} alternativeLabel style={{ backgroundColor: "inherit" }}>
           {steps.map(label => (
             <Step key={label}>
@@ -340,40 +424,45 @@ export default function ImportProductStockForm() {
         </Stepper>
       </div>
       <Box className={classes.content}>
-      <Grid container spacing={4}>
-        <Grid item  xs={4}>
-          <Box>
-            <Typography variant="h5" className={classes.title} gutterBottom>Basics</Typography>
-            <Typography variant="subtitle1">Name, brand, description, and other essential details of the product.</Typography>
-          </Box>
-        </Grid>
-        <Grid container item xs={8} style={{ color: "rgb(234, 236, 239)" }}>
-          <Grid item xs={12}>
-          {getStepContent(activeStep)}
+        <Grid container spacing={4}>
+          <Grid item xs={4}>
+            <Box>
+              {
+                activeStep === 0 ?(
+                <><Typography variant="h6" style={{ color: "rgb(234, 236, 239)" }}>Danh sách sản phẩm</Typography><Typography variant="subtitle1" style={{ color: "rgb(234, 236, 239)" }}>Chọn sản phẩm và số lượng nhập kho.</Typography></>)
+                : activeStep === 1 ? (
+                <><Typography variant="h6" style={{ color: "rgb(234, 236, 239)" }}>Thông tin nhà cung cấp</Typography><Typography variant="subtitle1" style={{ color: "rgb(234, 236, 239)" }}>Chọn nhà cung cấp cung cấp sản phẩm.</Typography></>)
+                : (
+                <><Typography variant="h6" style={{ color: "rgb(234, 236, 239)" }}>Xác nhận thông tin</Typography><Typography variant="subtitle1" style={{ color: "rgb(234, 236, 239)" }}>Xem lại thông tin trước khi nhập kho.</Typography></>)
+
+              }
+            </Box>
+          </Grid>
+          <Grid container item xs={8} style={{ color: "rgb(234, 236, 239)" }}>
+            <Grid item xs={12}>
+              {getStepContent(activeStep)}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-       
       </Box>
-
       <Grid container style={{ marginTop: '2em', width: "100%" }}>
         <Grid item xs={6}>
           <Button variant="outlined" color="secondary" className={classes.button} onClick={handleQuit} style={{ backgroundColor: "inherit", color: "#f50057" }}>
-            Quit
+            Thoát
           </Button>
         </Grid>
         <Grid item xs={6}>
           <Box style={{ display: "flex", justifyContent: "flex-end" }}>
-            {activeStep > 0 ? <Button className={classes.button} style={{ marginRight: '1em', backgroundColor: "inherit", color: "rgb(240, 185, 11)" }} onClick={handleBack}>Back</Button> : null}
+            {activeStep > 0 ? <Button className={classes.button} style={{ marginRight: '1em', backgroundColor: "inherit", color: "rgb(240, 185, 11)" }} onClick={handleBack}>Quay lại</Button> : null}
             {activeStep === steps.length - 1 ?
               (
                 <Button variant="contained" className={classes.button} onClick={handleFinish}>
-                  Finish
+                  Hoàn thành
                 </Button>
               ) : (
                 <Button variant="contained" color="default"
                   className={classes.button} onClick={handleNext}>
-                  Next
+                  Tiếp
                 </Button>
               )}
           </Box>
