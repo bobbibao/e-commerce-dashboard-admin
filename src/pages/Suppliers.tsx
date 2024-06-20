@@ -165,7 +165,7 @@ const Suppliers = () => {
     return <div>Loading...</div>;
   }
 
-  const Table = useCallback(TableHOC<SupplierType>(columns, data, "dashboard-product-box", "Suppliers", true), [data]);
+  const Table = useCallback(TableHOC<SupplierType>(columns, data, "dashboard-product-box", "Danh sách nhà cung cấp", true), [data]);
 
   const transitionDuration = {
     enter: 0.5,

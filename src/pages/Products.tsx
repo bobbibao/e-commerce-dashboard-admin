@@ -33,15 +33,15 @@ const columns: Column<DataType>[] = [
 		accessor: "photo",
 	},
 	{
-		Header: "Name",
+		Header: "Tên sản phẩm",
 		accessor: "name",
 	},
 	{
-		Header: "Price",
+		Header: "Giá bán",
 		accessor: "price",
 	},
 	{
-		Header: "Stock",
+		Header: "Số lượng tồn kho",
 		accessor: "stock",
 	},
 	// {
@@ -149,7 +149,7 @@ const Products = () => {
 	if(!data){
         return "<div> loading... </div>";
     }
-	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Products", true), [data]);
+	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Danh sách sản phẩm", true), [data]);
 	const transitionDuration = {
 		enter: 0.5,
 		exit: 0.5,

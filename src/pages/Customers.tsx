@@ -137,7 +137,7 @@ const Customers = () => {
         history(`/customer/${id}`);
     };
 
-    const Table = useCallback(TableHOC<DataType>(columns, customers, "dashboard-product-box", "Customers", true), [customers]);
+    const Table = useCallback(TableHOC<DataType>(columns, customers, "dashboard-product-box", "Danh sách khách hàng", true), [customers]);
 
     return (
         <div className="admin-container" style={{ color: "rgb(234, 236, 239)" }}>
