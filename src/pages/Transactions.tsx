@@ -146,7 +146,7 @@ const Transactions = () => {
 		fetchData();
 	}, []);
 
-	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Transactions", true), [data]);
+	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Danh sách đơn hàng", true), [data]);
 
 	return (
 		<div className="admin-container" style={{color: "rgb(234, 236, 239)"}}>
