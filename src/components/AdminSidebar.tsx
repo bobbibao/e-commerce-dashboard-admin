@@ -92,9 +92,9 @@ const DivTwo = ({ location }: { location: Location }) => (
 		<h5>Sản phẩm</h5>
 		<ul>
 			<Li url="/admin/products" text="Sản phầm" Icon={RiShoppingBag3Fill} location={location} />
-			<Li url="/admin/product/new" text="Nhập hàng" Icon={RiShoppingBag3Fill} location={location} />
+			{/* <Li url="/admin/product/new" text="Nhập hàng" Icon={RiShoppingBag3Fill} location={location} /> */}
 			<Li url="/admin/product/stock" text="Nhập kho" Icon={RiShoppingBag3Fill} location={location} />
-			<Li url="/admin/product/price" text="Giá sản phẩm" Icon={RiShoppingBag3Fill} location={location} />
+			{/* <Li url="/admin/product/price" text="Giá sản phẩm" Icon={RiShoppingBag3Fill} location={location} /> */}
 			<Li url="/admin/product/coupon" text="Khuyến mãi" Icon={RiShoppingBag3Fill} location={location} />
 		</ul>
 	</div>
@@ -110,9 +110,9 @@ const DivThree = ({ location }: { location: Location }) => (
 
 const DivFour = ({ location }: { location: Location }) => (
 	<div>
-		<h5>Giao dịch</h5>
+		<h5>Đơn hàng</h5>
 		<ul>
-			<Li url="/admin/transaction" text="Giao dịch" Icon={AiFillFileText} location={location} />
+			<Li url="/admin/transaction" text="Đơn hàng" Icon={AiFillFileText} location={location} />
 		</ul>
 	</div>
 );
