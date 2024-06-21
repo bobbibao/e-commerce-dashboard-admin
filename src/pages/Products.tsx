@@ -21,8 +21,9 @@ import React from "react";
 
 interface DataType {
 	photo: ReactElement;
+	id: string;
 	name: string;
-	price: number;
+	price: string;
 	stock: number;
 	action: string;
 }
@@ -31,6 +32,10 @@ const columns: Column<DataType>[] = [
 	{
 		Header: "Photo",
 		accessor: "photo",
+	},
+	{
+		Header: "ID",
+		accessor: "id",
 	},
 	{
 		Header: "Tên sản phẩm",
@@ -126,16 +131,24 @@ const Products = () => {
 	  const closeSearchModal = () => {
 		setSearchModal(false);
 	  };
+	const formatCurrency = (value: number) => {
+	return value.toLocaleString("vi-VN", {
+		style: "currency",
+		currency: "VND",
+	});
+};
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const result = await axios.get("http://localhost:8080/products");
+				console.log(result.data);
 				setData(result.data.map((product: any) => {
 					return {
 						photo: <img src={`https://${product.imageUrl}`} alt={product.category} />,
+						id: product.id,
 						name: product.name,
-						price: product.price,
-						stock:  5,
+						price:  formatCurrency(product.price),
+						stock:  product.stock,
 						action: `/admin/product/${product.id}`
 					}
 				}));
@@ -149,7 +162,7 @@ const Products = () => {
 	if(!data){
         return "<div> loading... </div>";
     }
-	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Danh sách sản phẩm", true), [data]);
+	const Table = useCallback(TableHOC<DataType>(columns, data, "dashboard-product-box", "Danh sách sản phẩm", true, 6), [data]);
 	const transitionDuration = {
 		enter: 0.5,
 		exit: 0.5,

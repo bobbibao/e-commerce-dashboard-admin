@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import AdminSidebar from "../components/AdminSidebar";
 import TableHOC from "../components/TableHOC";
 import { Column } from "react-table";
@@ -16,7 +16,6 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import SearchIcon from "@material-ui/icons/Search";
-import React from "react";
 
 interface SupplierType {
   // logo: ReactElement;
@@ -35,7 +34,7 @@ const columns: Column<SupplierType>[] = [
     accessor: "id",
   },
   {
-    Header: "Name",
+    Header: "Tên",
     accessor: "name",
   },
   {
@@ -165,7 +164,7 @@ const Suppliers = () => {
     return <div>Loading...</div>;
   }
 
-  const Table = useCallback(TableHOC<SupplierType>(columns, data, "dashboard-product-box", "Danh sách nhà cung cấp", true), [data]);
+  const Table = useCallback(TableHOC<SupplierType>(columns, data, "dashboard-product-box", "Danh sách nhà cung cấp", true, 9), [data]);
 
   const transitionDuration = {
     enter: 0.5,
