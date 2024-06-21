@@ -11,8 +11,12 @@ export default function Pricing({ product, setProduct }) {
     <Grid container spacing={4}>
       <Grid item xs={4}>
         <Box>
-          <Typography variant="h5" gutterBottom>Pricing</Typography>
-          <Typography variant="subtitle1">Enter the cost price, selling price, and discount details.</Typography>
+          <Typography variant="h5" gutterBottom>
+            Giá cả
+          </Typography>
+          <Typography variant="subtitle1">
+            Đặt giá cho sản phẩm của bạn để bắt đầu bán hàng
+          </Typography>
         </Box>
       </Grid>
       <Grid container item xs={8}>

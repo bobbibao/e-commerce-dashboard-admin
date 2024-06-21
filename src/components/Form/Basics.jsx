@@ -20,8 +20,12 @@ export default function Basics({ product, setProduct }) {
     <Grid container className={classes.grid} spacing={4}>
       <Grid item className={classes.box} xs={4}>
         <Box>
-          <Typography variant="h5" className={classes.title} gutterBottom>Basics</Typography>
-          <Typography variant="subtitle1">Name, brand, description, and other essential details of the product.</Typography>
+          <Typography variant="h5" className={classes.title} gutterBottom>
+            Thông tin cơ bản
+          </Typography>
+          <Typography variant="subtitle1">
+            Nhập thông tin cơ bản về sản phẩm thêm vào cửa hàng và bắt đầu bán hàng
+          </Typography>
         </Box>
       </Grid>
       <Grid container item className={classes.box} xs={8} style={{ color: "rgb(234, 236, 239)" }}>
@@ -62,6 +66,7 @@ export default function Basics({ product, setProduct }) {
             options={[
               { value: 'SHOES' },
               { value: 'T_SHIRTS'},
+              { value: 'SHIRTS'},
               { value: 'SHORTS'},
             ]}
           />

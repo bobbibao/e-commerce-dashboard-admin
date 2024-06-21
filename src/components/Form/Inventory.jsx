@@ -34,8 +34,12 @@ export default function Inventory({ product, setProduct }) {
     <Grid container spacing={4}>
       <Grid item xs={4}>
         <Box>
-          <Typography variant="h5" gutterBottom>Inventory</Typography>
-          <Typography variant="subtitle1">Manage stock quantities for different warehouses.</Typography>
+          <Typography variant="h5" gutterBottom>
+            Kho hàng
+          </Typography>
+          <Typography variant="subtitle1">
+            Quản lý số lượng sản phẩm và thông tin kho hàng của bạn
+          </Typography>
         </Box>
       </Grid>
       <Grid container item xs={8}>

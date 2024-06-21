@@ -45,13 +45,17 @@ export default function Media({ product, setProduct }) {
     <Grid container spacing={4}>
       <Grid item xs={4}>
         <Box>
-          <Typography variant="h5" gutterBottom>Media</Typography>
-          <Typography variant="subtitle1">Upload the main image and additional images for your product.</Typography>
+          <Typography variant="h5" gutterBottom>
+            Hình ảnh
+          </Typography>
+          <Typography variant="subtitle1">
+            Thêm hình ảnh chính và các ảnh đi kèm chất lượng cao giúp sản phẩm của bạn nổi bật hơn.
+            </Typography>
         </Box>
       </Grid>
       <Grid container item xs={8} spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h6">Main Image</Typography>
+          <Typography variant="h6">Ảnh chính</Typography>
           <Box display="flex" alignItems="center" marginBottom={2} style={{ display: 'flex', alignItems: 'center' }}>
             {mainImage ? (
               <Box position="relative">
@@ -75,7 +79,7 @@ export default function Media({ product, setProduct }) {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h6">Additional Images</Typography>
+          <Typography variant="h6">Các ảnh phụ</Typography>
           <Box style={{ display: 'flex', flexWrap: 'wrap' }}>
             {additionalImages.map((img, index) => (
               <Box key={index} position="relative" marginRight={2} marginBottom={2} style={{ position: 'relative', marginRight: '8px', marginBottom: '8px' }}>
