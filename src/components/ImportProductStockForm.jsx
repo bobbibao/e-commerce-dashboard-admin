@@ -398,7 +398,7 @@ export default function ImportProductStockForm() {
       await axios.post('http://localhost:8080/products/import?supplier='+supplier.split(' - ')[0], 
         products.map(product => {
           return {
-            product: product.product.split(' - ')[0],
+            productId: product.product.split(' - ')[0],
             quantity: product.quantity
           };
         })
