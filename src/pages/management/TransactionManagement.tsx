@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const TransactionManagement = () => {
     const [order, setOrder] = useState<any | null>(null);
 	const { id } = useParams<{ id: string }>();
@@ -28,18 +31,18 @@ const TransactionManagement = () => {
 
     const { name, address, city, country, state, pincode, subtotal, shippingCharges, tax, discount, total, status } = {
 		name: order.userId,
-		address: order.adress,
-		city: order.city || "",
-		country: order.country || "",
-		state: order.state || "",
-		pincode: order.pincode || 0,
+		address: order.adress || "123 Vạn Kiếp",
+		city: order.city || "Phường 3",
+		country: order.country || "HCM",
+		state: order.state || "Bình Thạnh",
+		pincode: order.pincode || 70000,
 		subtotal: order.subtotal,
-		shippingCharges: order.shippingCharges || 0,
-		tax: order.tax || 0,
+		shippingCharges: order.shippingCharges || 10000,
+		tax: order.tax || 0.1,
 		discount: order.discount || 0,
-		// total: order.subtotal + (order.shippingCharges || 0) + (order.tax || 0) - (order.discount || 0),
-		total: order.subtotal,
-		status: order.orderStatus.charAt(0).toUpperCase() + order.orderStatus.slice(1).toLowerCase()
+		// total: order.subtotal + (order.shsippingCharges || 0) + (order.tax || 0) - (order.discount || 0),
+		total: order.subtotal + (order.shsippingCharges || 10000) + (order.subtotal * 0.1),
+		status: order.orderStatus
 	};
 
     const updateHandler = async () => {
@@ -47,6 +50,7 @@ const TransactionManagement = () => {
             const updatedStatus = status.toUpperCase() === "PROCESSING" ? "SHIPPED" : "DELIVERED";
             await axios.put(`http://localhost:8080/orders/${order.id}/status/${updatedStatus}`);
             setOrder((prev: any) => prev ? { ...prev, status: updatedStatus } : null);
+            toast.success("Thay đổi trạng thái thành công");
         } catch (error) {
             console.log(error);
         }
@@ -62,10 +66,11 @@ const TransactionManagement = () => {
                         <ProductCard key={i._id} name={i.title} photo={"https://"+i.image} price={i.price} quantity={i.amount} _id={i.id} />
                     ))}
                 </section>
+                <ToastContainer />
                 <article className="shipping-info-card">
                     <h1>Order Info</h1>
                     <h5>User Info</h5>
-                    <p>Name: {name}</p>
+                    <p>User ID: {name}</p>
                     <p>Address: {`${address}, ${city}, ${state}, ${country} ${pincode}`}</p>
                     <h5>Amount Info</h5>
                     <p>Sub Total: {subtotal}</p>
@@ -75,7 +80,7 @@ const TransactionManagement = () => {
                     <p>Total Amount: {total}</p>
                     <h5>Status Info</h5>
                     <p>
-                        Status: <span className={status === "Delivered" ? "purple" : status === "Shipped" ? "green" : "red"}>{status}</span>
+                        Status: <span style={{color: (order.orderStatus === "DELIVERED")? "rgb(122, 200, 180)": order.orderStatus === "PROCESSING" ? "rgb(157, 90, 98)": "rgb(240, 185, 11)"}}>{order.orderStatus}</span>
                     </p>
                     <button onClick={updateHandler}>Process Order</button>
                 </article>

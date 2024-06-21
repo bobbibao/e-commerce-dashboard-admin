@@ -12,6 +12,9 @@ import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const useStyles = makeStyles((theme) => ({
     title: {
         fontFamily: 'ApercuMedium'
@@ -90,8 +93,7 @@ const ProductManagement = () => {
         }
     }, [product]);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
+    const handleChange = (name: string, value: any) => {
         setProductUpdate({ ...productUpdate, [name]: value });
     };
 
@@ -103,10 +105,10 @@ const ProductManagement = () => {
                 imageUrl: productUpdate.imageUrl.replace('https://', '')
             });
             setProduct({ ...productUpdate, imageUrl: productUpdate.imageUrl.replace('https://', '') });
-            alert("Product updated successfully");
+            toast.success("Product updated successfully");
         } catch (error) {
             console.log(error);
-            alert("Error updating product");
+            toast.error("Error updating product");
         }
     };
 
@@ -153,12 +155,13 @@ const ProductManagement = () => {
         <div className="admin-container" style={{ color: "rgb(234, 236, 239)" }}>
             <AdminSidebar />
             <main className="dashboard-product-box">
+                <ToastContainer />
                 <Typography variant="h4" style={{ fontWeight: 700 }} >Chỉnh sửa sản phẩm</Typography>
                 <Grid container spacing={4}>
                     <Grid item xs={12}>
                         <Box>
                             <Typography variant="subtitle1"  style={{letterSpacing: 2, opacity: 0.8}}>
-                                Thông tin sản phẩm <span style={{ color: "rgb(252, 213, 53)" }}>(*)</span>
+                                Thông tin sản phẩm - ID: {id} <span style={{ color: "rgb(252, 213, 53)" }}>(*)</span>
                             </Typography>
                         </Box>
                     </Grid>
@@ -166,8 +169,9 @@ const ProductManagement = () => {
                         <Grid item xs={3}>
                             <FieldRow
                                 label="Tên sản phẩm"
+                                name="name"
                                 value={productUpdate.name}
-                                onChange={handleChange}
+                                onChange={(e) => handleChange("name", e.target.value)}
                                 openModal={false}
                                 variant="input"
                                 style={{ width: "100px" }}
@@ -176,6 +180,7 @@ const ProductManagement = () => {
                         <Grid item xs={3}>
                             <FieldRow
                                 label="Giá bán"
+                                name="price"
                                 value={formatCurrency(productUpdate.price)}
                                 onChange={handleChange}
                                 openModal={false}
@@ -186,6 +191,7 @@ const ProductManagement = () => {
                         <Grid item xs={3}>
                             <FieldRow
                                 label="Tồn kho"
+                                name="stock"
                                 value={productUpdate.stock || "0"}
                                 onChange={handleChange}
                                 openModal={false}
@@ -197,7 +203,7 @@ const ProductManagement = () => {
                         <Grid item xs={3}>
                             <FieldRow
                                 label="Số lượng đã bán/ Tổng số lượng"
-                                value={productUpdate.sold + "/ " +   productUpdate.stock}
+                                value={productUpdate.sold + "/ " +   (productUpdate.sold + productUpdate.stock)}
                                 onChange={handleChange}
                                 openModal={false}
                                 variant="input"
@@ -208,8 +214,9 @@ const ProductManagement = () => {
                             <Grid item xs={3}>
                                 <FieldRow
                                     label="Mô tả"
+                                    name="description"
                                     value={productUpdate.description}
-                                    onChange={handleChange}
+                                    onChange={(e: { target: { value: any; }; }) => handleChange("description", e.target.value)}
                                     openModal={false}
                                     variant="textarea"
                                 />
@@ -226,6 +233,7 @@ const ProductManagement = () => {
                                         options={[
                                             { value: 'SHOES' },
                                             { value: 'T_SHIRTS' },
+                                            { value: 'SHIRTS'},
                                             { value: 'SHORTS' },
                                         ]}
                                     />
