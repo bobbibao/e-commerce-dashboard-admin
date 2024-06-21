@@ -7,6 +7,7 @@ import Box from '@material-ui/core/Box';
 import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -86,6 +87,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Search(props) {
   const classes = useStyles();
+  const navigate = useNavigate();
   const [values, setValues] = React.useState({
     type: 'ID',
   });
@@ -115,6 +117,16 @@ export default function Search(props) {
 
   function handleQueryValue(e) {
     setQueryValue(e.target.value);
+  }
+
+  function handleSearch() {
+    
+    if(queryValue === '') {
+      return;
+    }
+    if(values.type === 'ID') {
+      navigate(`/admin/product/${Number(queryValue)}`);
+    }
   }
 
   return (
@@ -163,7 +175,7 @@ export default function Search(props) {
         <Button vsize="small" className={classes.button} style={{ marginRight: '1em', backgroundColor: "inherit", color: "rgb(240, 185, 11)"}}  onClick={props.onClose} >
           Cancel
         </Button>
-        <Button variant="contained"  className={classes.button}>
+        <Button variant="contained"  className={classes.button} onClick={handleSearch} >
           Search
         </Button>
       </Box>
