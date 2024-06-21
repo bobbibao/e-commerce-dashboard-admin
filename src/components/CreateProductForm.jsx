@@ -11,6 +11,9 @@ import SupplierInfo from './Form/SupplierInfo';  // New import
 import Reviews from './Form/Reviews';            // New import
 import RestockHistory from './Form/RestockHistory'; // New import
 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const useStyles = makeStyles(theme => ({
   grid: {
     marginBottom: theme.spacing(1),
@@ -145,10 +148,12 @@ export default function CreateProductForm() {
         }
       });
       const { mainImage, additionalImages } = res.data;
+      const supplier = Number(product.supplier.split(' - ')[0]);
       setProduct(prevProduct => ({
         ...prevProduct,
         mainImage,
-        additionalImages
+        additionalImages,
+        supplier
       }));
     } catch (error) {
       console.error('Error uploading images:', error);
@@ -162,16 +167,17 @@ export default function CreateProductForm() {
     try {
       const res = await axios.post('http://localhost:8080/products', product);
       console.log(res);
-      if (res.status === 201) {
-        navigate('/admin/product', replace = true);
-      }
+      toast.success('Nhập hàng thành công');
+      navigate('/admin/product', replace = true);
     } catch (error) {
       console.error(error);
+      // toast.error('Nhập hàng thất bại');
     }
   };
 
   return (
     <Container maxWidth="lg" className={classes.root} style={{ padding: "2rem" }}>
+    <ToastContainer />
       <div className={classes.root}>
         <Stepper activeStep={activeStep} alternativeLabel style={{ backgroundColor: "inherit" }}>
           {steps.map(label => (
