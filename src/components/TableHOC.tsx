@@ -6,14 +6,14 @@ import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import { useNavigate } from 'react-router-dom';
 
 // ...rest of your code
-function TableHOC<T extends Object>(columns: Column<T>[], data: T[], containerClassName: string, heading: string, showPagination: boolean = false) {
+function TableHOC<T extends Object>(columns: Column<T>[], data: T[], containerClassName: string, heading: string, showPagination: boolean = false, sizee = 5) {
 	const navigate = useNavigate();
 	return function HOC() {
 		const options: TableOptions<T> = {
 			columns,
 			data,
 			initialState: {
-				pageSize: 5,
+				pageSize: sizee,
 			},
 		};
 		const {
