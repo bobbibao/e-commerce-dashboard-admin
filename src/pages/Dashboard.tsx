@@ -7,19 +7,65 @@ import userImg from "../assets/userImage.png";
 import data from "../assets/data.json";
 import { BarChart, DougnutChart } from "../components/Charts";
 import DashBoardTable from "../components/DashBoardTable";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Dashboard = () => {
 	const [hover, setHover] = useState(false);
+	const [countGender, setCountGender] = useState([]);
+	const [countCategory, setCountCategory] = useState([
+		{
+			heading: "",
+			value: 0,
+		}
+	]);
+	
+	const toggleHover = () => {
+		setHover(!hover);
+	};
 
-		const toggleHover = () => {
-			setHover(!hover);
-		};
+	const style = {
+		borderBottomColor: hover ? 'rgb(240, 185, 11)' : 'rgb(57, 57, 57)',
+	};
 
-		const style = {
-			borderBottomColor: hover ? 'rgb(240, 185, 11)' : 'rgb(57, 57, 57)',
-		};
+	useEffect(() => {
+		axios.get('http://localhost:8080/api/dashboard/count-genders')
+			.then(res => {
+				// [{gender: "F", count: 15}, {gender: "M", count: 18}] (2)
+				const data = res.data;
+				const count = data.map((item) => item.count);
+				// console.log(count);
+				setCountGender(count);
+			})
+			.catch(err => {
+				console.log(err);
+			});
 
+		// axios.get('http://localhost:8080/api/dashboard/count-by-gender?gender=M')
+		// 	.then(res => {
+		// 		console.log(res.data);
+		// 	})
+		// 	.catch(err => {
+		// 		console.log(err);
+		// 	});
+
+		axios.get('http://localhost:8080/api/dashboard/count-product-by-category')
+			.then(res => {
+				const data = res.data;
+				console.log(data);
+				setCountCategory(
+					data.map((category) => {
+						return {
+							heading: category.category,
+							value: category.count
+						};
+					})
+				);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	}, []);
 	return (
 		<div className="admin-container">
 			<AdminSidebar />
@@ -52,6 +98,7 @@ const Dashboard = () => {
 						<h2>Inventory</h2>
 						<div>
 							{data.categories.map((category, index) => (
+								console.log(category),
 								<CategoryItem
 									key={index}
 									heading={category.heading}
@@ -65,7 +112,7 @@ const Dashboard = () => {
 				<section className="transaction-container">
 					<div className="gender-chart">
 						<h2>Gender Ratio</h2>
-						<DougnutChart labels={["Female", "Male"]} data={[12, 19]} backgroundColor={["hsl(340,82%,56%", "rgba(53,162,235,0.8)"]} />
+						<DougnutChart labels={["Female", "Male"]} data={countGender} backgroundColor={["hsl(340,82%,56%", "rgba(53,162,235,0.8)"]} />
 						<p style={{color: "rgb(234, 236, 239)"}}>
 							<BiMaleFemale />
 						</p>

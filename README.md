@@ -1,69 +1,91 @@
-# ECOMMERCE ADMIN DASHBOARD
-
-## Live Demo
-
-Check out the live demo [Live Demo](https://react-admin-dashboard-ts-p3an.vercel.app/admin/dashboard/).
-
-
-## Overview
- Welcome to our dynamic eCommerce Dashboard built with React, TypeScript, and SASS. Featuring interactive data visualization powered by React-Table and Chart.js-2, this dashboard provides insightful analytics at your fingertips. Additionally, we've crafted an engaging guessing game using vanilla JavaScript, allowing users to test their intuition with instant feedback and tracking of their attempts.
-
-## Preview
-![React Ecommerce Admin Dashboard Preview](https://github.com/Aryan9901/react_admin_dashboard_ts/blob/master/admindashboard.png)
+# E-Commerce Project
 
 ## Table of Contents
-- [Introduction](#Introduction)
-- [Features](#Features)
-- [Screenshots](#screenshots)
-- [Technologies Used](#technologies-used)
-- [Installation](#Installation)
+- [Project Description](#project-description)
+- [Links](#links)
+- [File Structure](#file-structure)
+- [Demo](#demo)
+- [Installation](#installation)
 
-## Introduction
-This project is an eCommerce Dashboard designed to provide users with a comprehensive view of their online store's performance and customer trends. It's built using React.js, TypeScript, and SASS to ensure a robust and scalable solution. The dashboard includes interactive data tables and dynamic charts, powered by React-Table and various charting libraries, for visualizing sales trends, product tracking, and user demographics. Additionally, there's functionality for managing products, tracking orders, and analyzing revenue distribution.
+## Project Description
+This project is a full-featured e-commerce application developed using Spring Boot for the backend and React for the frontend. It includes a user-facing e-commerce platform and an admin dashboard for managing products, orders, and users.
 
-## Features
-- **Responsive Design:** The dashboard is fully responsive, ensuring seamless user experience across devices and screen sizes.
-- **Interactive Data Tables:** Utilizing React-Table, users can easily browse through and analyze various datasets with sorting, filtering, and pagination functionalities.
-- **Dynamic Charts and Graphs:** Visualize key metrics such as:</br>
- -   👉 Number of users and gender statistics
- -   👉 Product inventory status (in-stock vs. out-of-stock)
- -   👉 Category-wise product sales (pie chart)
- -   👉 Revenue trends (line chart)
- -   👉 Order fulfillment ratio
- -   👉 Revenue distribution
- -   👉 Users age group distribution
-- **Product Management:** Functionality for adding new products, tracking product status (shipped, delivered, dispatched), and managing inventory.
+## Links
+- [Backend](https://github.com/bobbibao/e-commerce-backend.git)
+- [Frontend](https://github.com/bobbibao/e-commerce-frontend.git)
+- [Admin Dashboard](https://github.com/bobbibao/e-commerce-dashboard-admin.git)
 
-  ## Screenshots
+## File Structure
+Here is the file structure of the project:
 
-Here are some screenshots of the Shiksha Arpan Platform:
+```java
+ecommerce-project/
+├── backend/
+│ ├── src/
+│ │ ├── main/
+│ │ │ ├── java/
+│ │ │ │ └── com/
+│ │ │ │ └── vti/
+│ │ │ │ └── ecommerce/
+│ │ │ │ ├── ECommerceApplication.java
+│ │ │ │ ├── domains/
+│ │ │ │ │ └── entities/
+│ │ │ │ │ ├── User.java
+│ │ │ │ │ └── ... (other entity classes)
+│ │ │ │ ├── repositories/
+│ │ │ │ │ └── IUserRepository.java
+│ │ │ │ │ └── ... (other repository interfaces)
+│ │ │ │ ├── services/
+│ │ │ │ │ ├── IUserService.java
+│ │ │ │ │ └── impl/
+│ │ │ │ │ └── UserServiceImpl.java
+│ │ │ │ │ └── ... (other service implementations)
+│ │ │ │ └── controllers/
+│ │ │ │ └── UserController.java
+│ │ │ │ └── ... (other controllers)
+│ │ │ └── resources/
+│ │ │ ├── application.properties
+│ │ │ └── ... (other resource files)
+│ └── pom.xml
+├── frontend/
+│ ├── public/
+│ ├── src/
+│ │ ├── components/
+│ │ ├── pages/
+│ │ ├── App.js
+│ │ ├── index.js
+│ └── package.json
+└── admin-dashboard/
+├── public/
+├── src/
+│ ├── components/
+│ ├── pages/
+│ ├── App.js
+│ ├── index.js
+└── package.json
+```
 
-![Screenshot 1](https://github.com/Aryan9901/react_admin_dashboard_ts/blob/master/Screenshot%202024-05-26%20144405.png)
-
----
-
-![Screenshot 2](https://github.com/Aryan9901/react_admin_dashboard_ts/blob/master/Screenshot%202024-05-26%20151149.png)
-
----
-
-![Screenshot 3](https://github.com/Aryan9901/react_admin_dashboard_ts/blob/master/Screenshot%202024-05-26%20151213.png)
-
----
-
-![Screenshot 4](https://github.com/Aryan9901/react_admin_dashboard_ts/blob/master/Screenshot%202024-05-26%20151234.png)
+## Demo
+You can view a demo of the project at the following links:
+- [Image Frontend Demo](https://github.com/bobbibao/e-commerce-backend/tree/main/demo/user_interface)
+- [Image Admin Dashboard Demo](https://github.com/bobbibao/e-commerce-backend/tree/main/demo/admin_dashboard)
 
 
-## Technologies Used
+server {
+    listen 80;
+    server_name 192.168.1.254;
 
-- React.js
-- TypeScript
-- SASS
-- React-Table
-- Various charting libraries (e.g., Chart.js, D3.js) for dynamic visualization
+    location /api {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect off;
+    }
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+}
 
-## Installation
-
-1. Clone the repository:
-- 👉 git clone <repository-url>
-2. Install dependencies:
-- 👉 npm install
