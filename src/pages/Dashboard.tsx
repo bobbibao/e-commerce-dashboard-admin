@@ -57,7 +57,7 @@ const Dashboard = () => {
 					data.map((category) => {
 						return {
 							heading: category.category,
-							value: category.count
+							value: (category.stock / (category.stock + category.sold) * 100).toFixed(0),
 						};
 					})
 				);
@@ -97,7 +97,7 @@ const Dashboard = () => {
 					<div className="dashboard-categories">
 						<h2>Inventory</h2>
 						<div>
-							{data.categories.map((category, index) => (
+							{countCategory.map((category, index) => (
 								console.log(category),
 								<CategoryItem
 									key={index}
