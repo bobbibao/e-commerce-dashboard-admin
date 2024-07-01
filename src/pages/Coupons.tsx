@@ -99,7 +99,7 @@ const columns: Column<DataType>[] = [
         accessor: "discountValue"
     },
     {
-        Header: "Số lần sử dụng",
+        Header: "Giới hạn",
         accessor: "usageLimit"
     },
     {

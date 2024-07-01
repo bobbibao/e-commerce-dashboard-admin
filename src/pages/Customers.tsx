@@ -14,6 +14,8 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import SearchIcon from "@material-ui/icons/Search";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 interface DataType {
     id: string;
     lastname: string;
@@ -132,6 +134,7 @@ const columns: Column<DataType>[] = [
                 setRole(newRole);
                 try {
                     await axios.put(`http://localhost:8080/user/${row.original.id}/role`, { role: newRole });
+                    toast.success("Đã cập nhật role cho user");
                 } catch (error) {
                     console.log(error);
                 }
@@ -234,25 +237,26 @@ const Customers = () => {
             <AdminSidebar />
             <main>{Table()}</main>
             <Zoom
-        timeout={transitionDuration}
-        style={{
-          transitionDelay: `${transitionDuration.exit}ms`,
-        }}
-        in={true}
-        unmountOnExit>
-        <Fab
-          className={classes.fab}
-          aria-label="search"
-          onClick={openSearchModal}
-          style={{
-            backgroundColor: "rgb(252, 213, 53)",
-            color: "rgb(24, 26, 32)",
-            boxShadow: "0 20px 60px -2px rgba(27,33,58,.4)",
-          }}
-        >
-          <SearchIcon />
-        </Fab>
-        </Zoom>
+              timeout={transitionDuration}
+              style={{
+                transitionDelay: `${transitionDuration.exit}ms`,
+              }}
+              in={true}
+              unmountOnExit>
+              <Fab
+                className={classes.fab}
+                aria-label="search"
+                onClick={openSearchModal}
+                style={{
+                  backgroundColor: "rgb(252, 213, 53)",
+                  color: "rgb(24, 26, 32)",
+                  boxShadow: "0 20px 60px -2px rgba(27,33,58,.4)",
+                }}
+              >
+                <SearchIcon />
+              </Fab>
+              </Zoom>
+              <ToastContainer />
 
         <Modal
             disableAutoFocus={true}
