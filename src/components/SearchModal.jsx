@@ -119,15 +119,6 @@ export default function Search(props) {
     setQueryValue(e.target.value);
   }
 
-  function handleSearch() {
-    
-    if(queryValue === '') {
-      return;
-    }
-    if(values.type === 'ID') {
-      navigate(`/admin/product/${Number(queryValue)}`);
-    }
-  }
 
   return (
     <div>
@@ -175,7 +166,9 @@ export default function Search(props) {
         <Button vsize="small" className={classes.button} style={{ marginRight: '1em', backgroundColor: "inherit", color: "rgb(240, 185, 11)"}}  onClick={props.onClose} >
           Cancel
         </Button>
-        <Button variant="contained"  className={classes.button} onClick={handleSearch} >
+        <Button variant="contained"  className={classes.button} onClick={
+          props.handleSearch(queryValue)
+        } >
           Search
         </Button>
       </Box>

@@ -167,6 +167,25 @@ const Products = () => {
 		enter: 0.5,
 		exit: 0.5,
 	  };
+	
+	  const handleSearch = async (search: string) => {
+		try {
+			console.log(search);
+		  const result = await axios.get(`http://localhost:8080/products/search/product-name=${search}`);
+		  console.log(result.data);
+		  setData(result.data.map((product: any) => {
+			return {
+			  photo: <img src={`https://${product.imageUrl}`} alt={product.category} />,
+			  id: product.id,
+			  name: product.name,
+			  price:  formatCurrency(product.price),
+			  stock:  product.stock,
+			  action: `/admin/product/${product.id}`
+			}}));
+		} catch (error) {
+			console.log(error);
+		}
+	}
 	return (
 		<div className="admin-container" style={{color: "rgb(234, 236, 239)"}}>
 			<AdminSidebar />
@@ -216,7 +235,7 @@ const Products = () => {
       >
         <Fade in={searchModal}>
           <div className={classes.paper}>
-            <SearchModal onClose={closeSearchModal} />
+            <SearchModal onClose={closeSearchModal} handleSearch={handleSearch}/>
           </div>
         </Fade>
       </Modal>

@@ -130,7 +130,7 @@ export default function ImportProductStockForm() {
   const [activeStep, setActiveStep] = useState(0);
   const [productList, setProductList] = useState([]);
   const [supplierList, setSupplierList] = useState([]);
-  const [products, setProducts] = useState([{ product: '', quantity: '' }]);
+  const [products, setProducts] = useState([{ product: '', quantity: '', price: ''}]);
   const [supplier, setSupplier] = useState('');
   const [supplierDetails, setSupplierDetails] = useState({});
   const steps = getSteps();
@@ -139,13 +139,19 @@ export default function ImportProductStockForm() {
     const newProducts = [...products];
     newProducts[index][event.target.name] = event.target.value;
     setProducts(newProducts);
+    console.log(products);
     setProductList(
-      productList.filter(product => product.id+"" !== newProducts[index].product.split(' - ')[0])
+      productList.map(product => {
+        if (product.id === event.target.value.split(' - ')[0]) {
+          product.quantity = event.target.value;
+        }
+        return product;
+      })
     );
   };
 
   const handleAddProduct = () => {
-    setProducts([...products, { product: '', quantity: '' }]);
+    setProducts([...products, { product: '', quantity: '', price: ''}]);
   };
 
   const handleRemoveProduct = (index) => {
@@ -232,7 +238,7 @@ export default function ImportProductStockForm() {
                     )}
                   />
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={2}>
                   <TextField
                     label="Số lượng"
                     name="quantity"
@@ -240,6 +246,23 @@ export default function ImportProductStockForm() {
                     variant="outlined"
                     className={classes.textfield}
                     value={product.quantity}
+                    onChange={(e) => handleProductChange(index, e)}
+                    InputProps={{
+                      classes: {
+                        root: classes.textfield,
+                        focused: classes.textfield,
+                      }
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    label="Giá nhập"
+                    name="price"
+                    type="number"
+                    variant="outlined"
+                    className={classes.textfield}
+                    value={product.price}
                     onChange={(e) => handleProductChange(index, e)}
                     InputProps={{
                       classes: {
@@ -319,7 +342,7 @@ export default function ImportProductStockForm() {
                       variant="input"
                     />
                   </Grid>
-                  <Grid item xs={7}>
+                  <Grid item xs={5}>
                   <FieldRow
                       label="Tên sản phẩm"
                       value={product.product.split(' - ')[1]}
@@ -327,10 +350,18 @@ export default function ImportProductStockForm() {
                       variant="input"
                     />
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={2}>
                   <FieldRow
                       label="Số lượng"
                       value={product.quantity}
+                      openModal={false}
+                      variant="input"
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                  <FieldRow
+                      label="Giá nhập"
+                      value={product.price}
                       openModal={false}
                       variant="input"
                     />
