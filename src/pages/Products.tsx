@@ -171,7 +171,7 @@ const Products = () => {
 	  const handleSearch = async (search: string) => {
 		try {
 			console.log(search);
-		  const result = await axios.get(`http://localhost:8080/products/search/product-name=${search}`);
+		  const result = await axios.get(`http://localhost:8080/products?q=${search}&_page=${1}&_limit=12`);
 		  console.log(result.data);
 		  setData(result.data.map((product: any) => {
 			return {
